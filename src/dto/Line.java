@@ -1,3 +1,5 @@
+package dto;
+
 public class Line {
 
     private final Point start;

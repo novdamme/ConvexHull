@@ -1,6 +1,8 @@
+package dto;
+
 import java.util.Objects;
 
-class Disk {
+public class Disk {
 
     private Point center;
     private final double radius;
@@ -13,6 +15,7 @@ class Disk {
     public Disk(Point point, double r) {
         this.center = point;
         this.radius = r;
+
     }
 
     @Override
