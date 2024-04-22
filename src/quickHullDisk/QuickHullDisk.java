@@ -53,9 +53,9 @@ public class QuickHullDisk {
         Line orientedLine = new Line(hullPointP, hullPointQ);
         Disk apexDisk = DisksUtil.findApexDisk(disks, orientedLine);
 
-        Point triangleApexX = apexDisk.findFarthestPoint(orientedLine);
-        Line orientedFrontEdgeLine = new Line(hullPointP, triangleApexX);
-        Line orientedBackEdgeLine = new Line(triangleApexX, hullPointQ);
+        Point apexDiskFarthestPoint = apexDisk.findFarthestPoint(orientedLine);
+        Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
+        Line orientedBackEdgeLine = new Line(apexDiskFarthestPoint, hullPointQ);
 
         List<Disk> frontEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedFrontEdgeLine, preApexDisk, apexDisk);
         List<Disk> backEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedBackEdgeLine, apexDisk, postApexDisk);
@@ -72,12 +72,12 @@ public class QuickHullDisk {
                     frontEdgeDisks,
                     backEdgeDisks,
                     apexDisk,
-                    triangleApexX
+                    apexDiskFarthestPoint
             );
         }
 
-        findHull(frontEdgeDisks, preApexDisk, apexDisk, hullPointP, triangleApexX);
-        findHull(backEdgeDisks, apexDisk, postApexDisk, triangleApexX, hullPointQ);
+        findHull(frontEdgeDisks, preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
+        findHull(backEdgeDisks, apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
     }
 
 
