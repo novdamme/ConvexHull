@@ -31,6 +31,14 @@ public class Disk {
         return Objects.hash(center, radius);
     }
 
+    public Point getCenter() {
+        return center;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
     public double getLeftMostX() {
         return this.center.getX() - this.radius;
     }
