@@ -1,6 +1,7 @@
 package dto;
 
 import java.util.Objects;
+import java.lang.Math;
 
 public class Point {
 
@@ -30,5 +31,13 @@ public class Point {
 
     public double getY() {
         return y;
+    }
+
+    /**
+    * Get the magnitude of a point
+    * This is only usefull when the point is threated as a vector
+    **/
+    public double getMagnitude() {
+        return Math.sqrt(x*x + y*y);
     }
 }
