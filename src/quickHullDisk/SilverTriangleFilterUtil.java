@@ -92,8 +92,18 @@ public class SilverTriangleFilterUtil {
                         triangleApexX = apexDiskPair.y;
                         break;
                 } case CASE_C1: {
+                        apexDisk = apexDisks.get(0).x;
+                        triangleApexX = apexDisks.get(0).y;
                         break;
                 } case CASE_C2 : {
+                        Random random = new Random(apexDisks.size() - 1);
+                        
+                        Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt());
+                        while(apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
+                                apexDiskPair = apexDisks.get(random.nextInt());
+                        }
+                        apexDisk = apexDiskPair.x;
+                        triangleApexX = apexDiskPair.y;
                         break;
                 }
         }
