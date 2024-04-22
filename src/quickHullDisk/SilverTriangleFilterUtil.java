@@ -7,6 +7,7 @@ import dto.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SilverTriangleFilterUtil {
 
@@ -33,17 +34,17 @@ public class SilverTriangleFilterUtil {
          Disk apex = apexDisks.get(0).x;
          double height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter()); 
          if (height == 0) {
-                 List<Disk> nonPositiveDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedLinePQ, startDisk, endDisk);
-                 if (nonPositiveDisks.size() > 2) {
+                 if (apexDisks.size() > 2) {
                          return SilverConfig.CASE_A;
                  } else {
                          return SilverConfig.CASE_B;
                  }
          } else {
-                return SilverConfig.CASE_C1;
-                 // } else {
-                 //         return SilverConfig.CASE_C2;
-                 // }
+                 if(apexDisks.size() == 1) {
+                        return SilverConfig.CASE_C1; 
+                 } else {
+                         return SilverConfig.CASE_C2;
+                 }
          }
     } 
 
@@ -81,13 +82,14 @@ public class SilverTriangleFilterUtil {
                         apexDisk = preApexDisk;
                         
                 } case CASE_B : {
-                        List<Disk> nonPositiveDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedNonNegativeTangentLine, preApexDisk, postApexDisk);
-                        for (Disk d : disks) {
-                                if (!d.equals(preApexDisk) && !d.equals(postApexDisk) && !nonPositiveDisks.contains(d)) {
-                                        apexDisk = d;      
-                                }
-                        }
+                        Random random = new Random(apexDisks.size() - 1);
                         
+                        Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt());
+                        while(apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
+                                apexDiskPair = apexDisks.get(random.nextInt());
+                        }
+                        apexDisk = apexDiskPair.x;
+                        triangleApexX = apexDiskPair.y;
                         break;
                 } case CASE_C1: {
                         break;
