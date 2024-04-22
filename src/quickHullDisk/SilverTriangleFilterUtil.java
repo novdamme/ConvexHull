@@ -29,7 +29,8 @@ public class SilverTriangleFilterUtil {
         );
     }
 
-    public static SilverConfig getSilverTriangleConfiguration(List<Disk> disks, Line orientedLinePQ, Disk startDisk, Disk endDisk, Disk apex) {
+    public static SilverConfig getSilverTriangleConfiguration(List<Disk> disks, Line orientedLinePQ, Disk startDisk, Disk endDisk, List<Pair<Disk, Point>> apexDisks) {
+         Disk apex = apexDisks.get(0).x;
          double height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter()); 
          if (height == 0) {
                  List<Disk> nonPositiveDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedLinePQ, startDisk, endDisk);
@@ -71,7 +72,8 @@ public class SilverTriangleFilterUtil {
             ) {
 
         Line orientedNonNegativeTangentLine = new Line(null, null);
-        SilverConfig config = getSilverTriangleConfiguration(disks, orientedNonNegativeTangentLine, preApexDisk, postApexDisk, apexDisk);
+        List<Pair<Disk, Point>> apexDisks = DisksUtil.findOnPositiveDisks(disks, orientedNonNegativeTangentLine, preApexDisk, postApexDisk);
+        SilverConfig config = getSilverTriangleConfiguration(disks, orientedNonNegativeTangentLine, preApexDisk, postApexDisk, apexDisks);
 
         switch(config) {
                 case CASE_A: {
