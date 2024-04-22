@@ -48,18 +48,6 @@ public class SilverTriangleFilterUtil {
          }
     } 
 
-    /**
-    * regularizes silver triangles 
-    * @param disks
-    * @param preApexDisk
-    * @param postApexDisk
-    * @param hullPointP
-    * @param hullPointQ
-    * @param frontEdgeDisks
-    * @param backEdgeDisks
-    * @param possibleApexDisks
-    * @return A Pair object containing the pivot disk and the pivot point
-    **/
     public static void regularizeSliverTriangleNPivotDisks(
             List<Disk> disks,
             Disk preApexDisk,
