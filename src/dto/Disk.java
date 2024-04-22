@@ -47,6 +47,14 @@ public class Disk {
         return new Point(getRightMostX(), this.center.getY());
     }
 
+    public Point getCenter() {
+        return this.center;
+    }
+
+    public double getRadius() {
+        return this.radius;
+    }
+
     public Point findFarthestPoint(Line orientedLine) {
         return null; // TODO
     }

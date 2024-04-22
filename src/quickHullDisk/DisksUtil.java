@@ -3,27 +3,95 @@ package quickHullDisk;
 import dto.Disk;
 import dto.Line;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DisksUtil {
 
+    private final static Random random = new Random(1);
+
     public static Disk findDiskWithHighLeftExtremePoint(List<Disk> disks) {
-        return null; // TODO
+        Disk diskWithHighLeftExtremePoint = disks.get(0);
+
+        for (Disk disk : disks) {
+            double leftMostXDiff = disk.getLeftMostX() - diskWithHighLeftExtremePoint.getLeftMostX();
+            if(leftMostXDiff < 0) {
+                diskWithHighLeftExtremePoint = disk;
+            } else if (leftMostXDiff == 0) {
+                double yDiff = disk.getCenter().getY() - diskWithHighLeftExtremePoint.getCenter().getY();
+                if(yDiff > 0 || (yDiff == 0 && disk.getRadius() > diskWithHighLeftExtremePoint.getRadius())) {
+                    diskWithHighLeftExtremePoint = disk;
+                }
+            }
+        }
+        return diskWithHighLeftExtremePoint;
     }
 
     public static Disk findDiskWithLowRightExtremePoint(List<Disk> disks) {
-        return null; // TODO
+        Disk diskWithLowRightExtremePoint = disks.get(0);
+        for (Disk disk : disks) {
+            double rightMostXDiff = disk.getRightMostX() - diskWithLowRightExtremePoint.getRightMostX();
+            if(rightMostXDiff > 0) {
+                diskWithLowRightExtremePoint = disk;
+            } else if (rightMostXDiff == 0) {
+                double yDiff = disk.getCenter().getY() - diskWithLowRightExtremePoint.getCenter().getY();
+                if(yDiff < 0 || (yDiff == 0 && disk.getRadius() > diskWithLowRightExtremePoint.getRadius())) {
+                    diskWithLowRightExtremePoint = disk;
+                }
+            }
+        }
+        return diskWithLowRightExtremePoint;
     }
 
     public static void findInitialDiskSets(List<Disk> disks, Line orientedLinePQ, List<Disk> initialDR, List<Disk> initialDL) {
-        // TODO
+        for (Disk disk : disks) {
+            if (orientedLinePQ.signedDistance(disk.getCenter()) <= disk.getRadius() + 1e-6) { // nonPositive
+                initialDR.add(disk);
+            } else if(orientedLinePQ.signedDistance(disk.getCenter()) >= -disk.getRadius() - 1e-6) { // nonNegative
+                initialDL.add(disk);
+            }
+        }
     }
 
     public static Disk findApexDisk(List<Disk> disks, Line orientedLinePQ) {
-        return null; // TODO
+        double largestDistance = 0.0;
+        Disk apexDisk = null;
+
+        for (Disk disk : disks) {
+            double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.signedDistance(disk.getCenter());
+            if (distanceOfCurrentDisk > largestDistance) {
+                largestDistance = distanceOfCurrentDisk;
+                apexDisk = disk;
+            } else if (distanceOfCurrentDisk == largestDistance) {
+                if(random.nextInt(2) == 1) {
+                    apexDisk = disk;
+                }
+            }
+        }
+        return apexDisk;
     }
 
     public static List<Disk> findExpandedNonPositiveDisks(List<Disk> disks, Line orientedLine, Disk startDisk, Disk endDisk) {
-        return null; // TODO (also used in silver triangle)
+        List<Disk> nonPositiveDisks = new ArrayList<>();
+        if(orientedLine.getStart() != orientedLine.getEnd()) {
+            for(Disk disk : disks) {
+                if(disk.equals(startDisk) || disk.equals(endDisk)) {
+                    continue;
+                }
+                if (orientedLine.signedDistance(disk.getCenter()) <= disk.getRadius() + 1e-6) { // nonPositive
+                    nonPositiveDisks.add(disk);
+                }
+            }
+        }
+
+        if(startDisk.equals(endDisk)) {
+            nonPositiveDisks.add(startDisk);
+        } else {
+            nonPositiveDisks.add(startDisk);
+            nonPositiveDisks.add(endDisk);
+        }
+
+        return nonPositiveDisks;
     }
 }

@@ -10,4 +10,15 @@ public class Line {
         this.end = end;
     }
 
+    public double signedDistance(Point point) {
+        return 0.0; // TODO
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+    public Point getEnd() {
+        return end;
+    }
 }
