@@ -85,6 +85,7 @@ public class SilverTriangleFilterUtil {
                                         apexDisk = d;      
                                 }
                         }
+                        
                         break;
                 } case CASE_C1: {
                         break;

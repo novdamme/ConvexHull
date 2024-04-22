@@ -55,7 +55,14 @@ public class Disk {
         return new Point(getRightMostX(), this.center.getY());
     }
 
-    public Point findFarthestPoint(Line orientedLine) {
-        return null; // TODO
+    public Point findFarthestPoint(Line orientedLinePQ) {
+
+        Point vector = orientedLinePQ.getNormalVector();
+        Point negativeVector = new Point(-vector.getX(), -vector.getY());
+        Point unitVector = new Point(negativeVector.getX()/negativeVector.getMagnitude(), 
+            negativeVector.getY()/negativeVector.getMagnitude());
+        Point farthesPoint = new Point(unitVector.getX() * this.getRadius() + this.getCenter().getY(),
+            unitVector.getY() * this.getRadius() + this.getCenter().getY());
+        return farthesPoint;
     }
 }

@@ -31,4 +31,10 @@ public class Line {
         double distance = (lineVector.getX()*s2pVector.getX() + lineVector.getY()*s2pVector.getY());
         return distance / length;
     }
+
+    public Point getNormalVector() {
+        Point lineVector = new Point(start.getX() - end.getX(), start.getY() - end.getY());        
+        return new Point(-lineVector.getY(), lineVector.getX());
+        
+    }
 }
