@@ -1,4 +1,4 @@
-package ConvexHull;
+package convexHullPoints;
 
 import dto.Point;
 
