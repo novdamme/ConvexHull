@@ -7,9 +7,21 @@ import quickHullDisk.QuickHullDisk;
 import java.util.List;
 
 public class benchmarkDisks {
+    private static String[] files = {
+            "resources/MIXED/N100000_10.txt"
+    };
+
     public static void main(String[] args) {
-        List<Disk> inputDisks = DiskIO.parse("resources/MIXED/N100000_10.txt");
+        System.out.println("Testing algorithm: QuickHullDisk");
         QuickHullDisk qhd = new QuickHullDisk();
-        qhd.run(inputDisks);
+        for (String file : files) {
+            System.out.println("Testing file: " + file);
+            List<Disk> inputDisks = DiskIO.parse(file);
+            long start = System.currentTimeMillis();
+            qhd.run(inputDisks);
+            long end = System.currentTimeMillis();
+            System.out.println("Time: " + (end - start));
+            System.out.println();
+        }
     }
 }

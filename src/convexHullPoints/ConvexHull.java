@@ -4,7 +4,7 @@ import dto.Point;
 
 import java.util.*;
 
-public class ConvexHull {
+public class ConvexHull implements ConvexHullAlgorithm {
     private static final Random rand = new Random(0);
 
     public static void main(String[] args) {
@@ -13,13 +13,13 @@ public class ConvexHull {
         for (int i = 0; i < 1000; i++) {
             points.add(new Point(rand.nextDouble(), rand.nextDouble()));
         }
-        List<Point> sol = convexHull.hull(points);
+        List<Point> sol = convexHull.convexHull(points);
         for (Point p : sol) {
             System.out.println(p.getX() + ";" + p.getY());
         }
     }
 
-    public List<Point> hull(List<Point> points) {
+    public List<Point> convexHull(List<Point> points) {
         points.sort(Comparator.comparingDouble(Point::getX).thenComparingDouble(Point::getY));
         List<Point> upper = new ArrayList<>(Arrays.asList(points.get(0), points.get(1)));
         for (int i = 3; i < points.size(); i++) {
@@ -41,7 +41,7 @@ public class ConvexHull {
         return upper;
     }
 
-    public boolean rightTurn(List<Point> points) {
+    private boolean rightTurn(List<Point> points) {
         Point p1 = points.get(points.size() - 3);
         Point p2 = points.get(points.size() - 2);
         Point p3 = points.get(points.size() - 1);
