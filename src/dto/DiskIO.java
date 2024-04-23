@@ -1,7 +1,5 @@
 package dto;
 
-import dto.Disk;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,7 +29,7 @@ public class DiskIO {
     }
 
     public static void main(String[] args) {
-        List<Disk> disks = parse("resources/N100000_10.txt");
+        List<Disk> disks = parse("resources/MIXED/N100000_10.txt");
         for (Disk disk : disks) {
             System.out.println(disk);
         }

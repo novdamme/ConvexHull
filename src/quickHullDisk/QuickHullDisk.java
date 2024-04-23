@@ -14,11 +14,11 @@ public class QuickHullDisk {
     }
 
     public void run(List<Disk> disks) {
-        if(disks.size() == 0) {
+        if (disks.size() == 0) {
             return;
         }
 
-        if(disks.size() == 1) {
+        if (disks.size() == 1) {
             hullDisks.add(disks.get(0));
             return;
         }
@@ -80,10 +80,8 @@ public class QuickHullDisk {
         findHull(backEdgeDisks, apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
     }
 
-
-
     public static void main(String[] args) {
-        List<Disk> inputDisks = DiskIO.parse("resources/N100000_10.txt");
+        List<Disk> inputDisks = DiskIO.parse("resources/MIXED/N100000_10.txt");
         QuickHullDisk qhd = new QuickHullDisk();
         qhd.run(inputDisks);
     }

@@ -1,12 +1,12 @@
 package dto;
 
 import java.util.Objects;
-import java.lang.Math;
 
 public class Point {
 
     private final double x;
     private final double y;
+
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
@@ -34,10 +34,10 @@ public class Point {
     }
 
     /**
-    * Get the magnitude of a point
-    * This is only usefull when the point is threated as a vector
-    **/
+     * Get the magnitude of a point
+     * This is only useful when the point is treated as a vector
+     **/
     public double getMagnitude() {
-        return Math.sqrt(x*x + y*y);
+        return Math.sqrt(x * x + y * y);
     }
 }
