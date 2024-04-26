@@ -36,8 +36,7 @@ public class SilverTriangleFilterUtil {
       int numOfDisksOnBackEdge,
       Disk preApexDisk,
       Disk postApexDisk) {
-    System.out.println("SilverTriangleConfig found");
-    return !preApexDisk.equals(postApexDisk) && ((numOfDisksOnFrontEdge == numOfDisks && numOfDisksOnBackEdge == 1)
+    return ( !preApexDisk.equals(postApexDisk) && (numOfDisksOnFrontEdge == numOfDisks && numOfDisksOnBackEdge == 1)
         || (numOfDisksOnFrontEdge == 1 && numOfDisksOnBackEdge == numOfDisks));
   }
 
@@ -53,6 +52,7 @@ public class SilverTriangleFilterUtil {
    */
   public static SilverConfig getSilverTriangleConfiguration(List<Disk> disks, Line orientedLinePQ, Disk startDisk,
       Disk endDisk, List<Pair<Disk, Point>> apexDisks) {
+    System.out.println("SilverTriangleConfig found");
     Disk apex = apexDisks.get(0).x;
     double height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter());
     if (height == 0) {
@@ -207,6 +207,8 @@ public class SilverTriangleFilterUtil {
    * @return
    */
   public static Double[] getTangentLines(Disk inputD1, Disk inputD2) {
+    System.out.println(inputD1.getCenter().getX() + ", " + inputD1.getCenter().getY() + ", " + inputD1.getRadius());
+    System.out.println(inputD2.getCenter().getX() + ", " + inputD2.getCenter().getY() + ", " + inputD2.getRadius());
     Disk d1;
     Disk d2;
     if (inputD2.getRadius() > inputD1.getRadius()) {
