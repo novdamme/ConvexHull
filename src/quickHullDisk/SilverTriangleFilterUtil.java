@@ -96,4 +96,84 @@ public class SilverTriangleFilterUtil {
                 }
         }
     }
+
+    public static Line computeOrientedTangentLine(Disk d1, Disk d2) {
+            Double[] lines = getTangentLines(d1, d2);
+            // convert ax+by+c=0 to ax+b=y
+            Point tan1 = new Point(lines[0]/(-lines[1]), (lines[2]/-lines[1]));
+            Point tan2 = new Point(lines[3]/(-lines[4]), (lines[5]/-lines[4]));
+
+            Line t1 = new Line(getTangentPoint(d1, tan1), getTangentPoint(d2, tan1));
+            Line t2 = new Line(getTangentPoint(d1, tan2), getTangentPoint(d2, tan2));
+
+            double totalDistance = t1.getDistance(d1.getCenter()) + t1.getDistance(d2.getCenter());
+
+            if(totalDistance > 0) {
+                    System.out.println("t1 was chosen");
+                    return t1;
+            } else {
+                    System.out.println("t2 was chosen");
+                    return t2;
+            }
+    }
+
+    public static Point getTangentPoint(Disk d, Point line) {
+            double m = line.getX();
+            double c = line.getY();
+            double p = d.getCenter().getX();
+            double q = d.getCenter().getY();
+            double r = d.getRadius();
+            double A = (m*m) + 1;
+            double B = 2*((m*c) - (m*q) - p);
+            double x = -B/(2*A);
+            double y = m*x + c;
+            double C = (q*q) - (r*r) + (p*p) - (2*c*q) + (c*c);
+            assert(0 == B*B-(4*A*C));
+            return new Point(x, y);
+    }
+
+    public static Double[] getTangentLines(Disk inputD1, Disk inputD2) {
+            Disk d1;
+            Disk d2;
+            if (inputD2.getRadius() > inputD1.getRadius()) {
+                    d1 = new Disk(inputD2.getCenter(), inputD2.getRadius());
+                    d2 = new Disk(inputD1.getCenter(), inputD1.getRadius());
+            } else {
+                    d2 = new Disk(inputD2.getCenter(), inputD2.getRadius());
+                    d1 = new Disk(inputD1.getCenter(), inputD1.getRadius());
+            }
+
+            double Dx = d2.getCenter().getX() - d1.getCenter().getX();
+            double Dy = d2.getCenter().getY() - d1.getCenter().getY();
+            double Dr = d2.getRadius() - d1.getRadius();
+            double d = Math.sqrt((Dx*Dx) + (Dy*Dy));
+
+            double X = Dx/d;
+            double Y = Dy/d;
+            double R = Dr/d;
+
+            double a1 = R*X - (Y*Math.sqrt(1 - (R*R)));
+            double b1 = R*Y + (X*Math.sqrt(1 - (R*R)));
+            double c1 = d1.getRadius() - (a1*d1.getCenter().getX() + (b1*d1.getCenter().getY()));
+
+            double a2 = R*X + (Y*Math.sqrt(1 - (R*R)));
+            double b2 = R*Y - (X*Math.sqrt(1 - (R*R)));
+            double c2 = d1.getRadius() - (a2*d1.getCenter().getX() + (b2*d1.getCenter().getY()));
+
+            System.out.println(a1 + " " + b1 + " " + c1);
+            System.out.println(a2 + " " + b2 + " " + c2);
+
+            Double[] res = {a1, b1, c1, a2, b2, c2};
+
+            return res;
+    }
+    
+    public static void main(String[] args) {
+	        Disk d1 = new Disk(new Point(2, 1), 1);
+	        Disk d2 = new Disk(new Point(10, 1.5), 5);
+
+	        Line x = computeOrientedTangentLine(d1, d2);
+	        System.out.println(x.getStart().getX() + ", " + x.getStart().getY());
+	        System.out.println(x.getEnd().getX() + ", " + x.getEnd().getY());
+    }
 }
