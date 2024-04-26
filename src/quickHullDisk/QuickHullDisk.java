@@ -52,6 +52,8 @@ public class QuickHullDisk {
 
         Line orientedLine = new Line(hullPointP, hullPointQ);
         Disk apexDisk = DisksUtil.findApexDisk(disks, orientedLine);
+        
+        // System.out.println(apexDisk);
 
         Point apexDiskFarthestPoint = apexDisk.findFarthestPoint(orientedLine);
         Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
