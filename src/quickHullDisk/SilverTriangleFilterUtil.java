@@ -5,18 +5,30 @@ import dto.Line;
 import dto.Pair;
 import dto.Point;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class SilverTriangleFilterUtil {
 
+    /**
+    * Enumerator for different configurations
+    */
     public enum SilverConfig {
             CASE_A,
             CASE_B,
             CASE_C1,
             CASE_C2
     };
+
+    /**
+     * Quick method to check whether a triangle configuration is silver
+     * @param numOfDisks
+     * @param numOfDisksOnFrontEdge
+     * @param numOfDisksOnBackEdge
+     * @param preApexDisk
+     * @param postApexDisk
+     * @return
+     */
     public static boolean triangleFilterIsSilver(
             int numOfDisks,
             int numOfDisksOnFrontEdge,
@@ -30,6 +42,15 @@ public class SilverTriangleFilterUtil {
         );
     }
 
+    /**
+     * Method to retrieve the current triangleconfiguration assuming there is one
+     * @param disks
+     * @param orientedLinePQ
+     * @param startDisk
+     * @param endDisk
+     * @param apexDisks
+     * @return
+     */
     public static SilverConfig getSilverTriangleConfiguration(List<Disk> disks, Line orientedLinePQ, Disk startDisk, Disk endDisk, List<Pair<Disk, Point>> apexDisks) {
          Disk apex = apexDisks.get(0).x;
          double height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter()); 
@@ -48,6 +69,18 @@ public class SilverTriangleFilterUtil {
          }
     } 
 
+    /**
+     * Method to regularize the triangle configuration
+     * @param disks
+     * @param preApexDisk
+     * @param postApexDisk
+     * @param hullPointP
+     * @param hullPointQ
+     * @param frontEdgeDisks
+     * @param backEdgeDisks
+     * @param apexDisk
+     * @param triangleApexX
+     */
     public static void regularizeSliverTriangleNPivotDisks(
             List<Disk> disks,
             Disk preApexDisk,
@@ -97,6 +130,14 @@ public class SilverTriangleFilterUtil {
         }
     }
 
+    /**
+     * Method to compute the outer tangent line between two circles
+     * These circles cannot be above eachother and have the exact same width
+     * #TODO: check wheter this actually ever turns up, the paper doesnt deal with this
+     * @param d1
+     * @param d2
+     * @return
+     */
     public static Line computeOrientedTangentLine(Disk d1, Disk d2) {
             Double[] lines = getTangentLines(d1, d2);
             // convert ax+by+c=0 to ax+b=y
@@ -117,6 +158,12 @@ public class SilverTriangleFilterUtil {
             }
     }
 
+    /**
+     * Method to find the intersection between a tangent line and a circle
+     * @param d
+     * @param line
+     * @return
+     */
     public static Point getTangentPoint(Disk d, Point line) {
             double m = line.getX();
             double c = line.getY();
@@ -132,6 +179,12 @@ public class SilverTriangleFilterUtil {
             return new Point(x, y);
     }
 
+    /**
+     * Method to retrieve the outer tangent lines between 2 circles
+     * @param inputD1
+     * @param inputD2
+     * @return
+     */
     public static Double[] getTangentLines(Disk inputD1, Disk inputD2) {
             Disk d1;
             Disk d2;
