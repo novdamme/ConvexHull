@@ -133,14 +133,11 @@ public class SilverTriangleFilterUtil {
 
       case CASE_B: {
         Random random = new Random();
+        List<Disk> onPositiveDisksWithouthDqDp = onPositiveDisks.stream()
+            .filter((x) -> (x.equals(preApexDisk) || x.equals(postApexDisk))).collect(Collectors.toList());
 
-        Disk tApexDisk = onPositiveDisks.get(random.nextInt(onPositiveDisks.size() - 1));
-        while (tApexDisk.equals(preApexDisk) || tApexDisk.equals(postApexDisk)) {
-          tApexDisk = onPositiveDisks.get(random.nextInt(onPositiveDisks.size()) - 1);
-        }
-
-        apexDisk.update(tApexDisk);
-        triangleApexX.update(tApexDisk.findFarthestPoint(orientedNonNegativeTangentLine));
+        apexDisk.update(onPositiveDisksWithouthDqDp.get(random.nextInt(onPositiveDisksWithouthDqDp.size() - 1)));
+        triangleApexX.update(apexDisk.findFarthestPoint(orientedNonNegativeTangentLine));
         break;
       }
 
@@ -152,11 +149,8 @@ public class SilverTriangleFilterUtil {
 
       case CASE_C2: {
         Random random = new Random();
-        Disk tApexDisk = nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1));
-        while (tApexDisk.equals(preApexDisk) || tApexDisk.equals(postApexDisk)) {
-          tApexDisk = nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1));
-        }
-        apexDisk.update(tApexDisk);
+        apexDisk.update(nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1)));
+        triangleApexX.update(apexDisk.findFarthestPoint(orientedNonNegativeTangentLine));
         break;
       }
     }
