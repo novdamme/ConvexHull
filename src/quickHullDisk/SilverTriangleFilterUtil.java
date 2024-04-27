@@ -48,28 +48,24 @@ public class SilverTriangleFilterUtil {
    * @param orientedLinePQ
    * @param startDisk
    * @param endDisk
-   * @param apexDisks
+   * @param onPositiveDisks
    * @return
    */
-  public static SilverConfig getSilverTriangleConfiguration(Line orientedLinePQ, Disk startDisk,
-      Disk endDisk, List<Pair<Disk, Point>> apexDisks) {
-    double height = 0;
+  public static SilverConfig getSilverTriangleConfiguration(
+      List<Disk> nonPositiveDisks,
+      List<Disk> onPositiveDisks,
+      Line orientedLinePQ,
+      Disk endDisk,
+      Disk startDisk) {
 
-    if (apexDisks.size() > 0) {
-      Disk apex = apexDisks.get(0).x;
-      height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter());
-    }
-
-    if ((height > 0 ? height : -height) < 1e-6) {
-      apexDisks = apexDisks.stream().filter((x) -> (!x.x.equals(startDisk) && !x.x.equals(endDisk)))
-          .collect(Collectors.toList());
-      if (apexDisks.size() == 0) {
+    if (nonPositiveDisks.size() == 0) {
+      if (onPositiveDisks.size() <= 2) {
         return SilverConfig.CASE_A;
       } else {
         return SilverConfig.CASE_B;
       }
     } else {
-      if (apexDisks.size() == 1) {
+      if (nonPositiveDisks.size() == 1) {
         return SilverConfig.CASE_C1;
       } else {
         return SilverConfig.CASE_C2;
@@ -102,17 +98,19 @@ public class SilverTriangleFilterUtil {
       Point triangleApexX) {
 
     Line orientedNonNegativeTangentLine = computeOrientedTangentLine(preApexDisk, postApexDisk);
-    List<Pair<Disk, Point>> apexDisks = DisksUtil.findOnPositiveDisks(disks, orientedNonNegativeTangentLine,
+    List<Disk> onPositiveDisks = DisksUtil.findOnPositiveDisks(disks, orientedNonNegativeTangentLine,
         preApexDisk, postApexDisk);
-    if (apexDisks.size() > 0) {
-      System.out.println("apexDisks=" + apexDisks.stream().map((Pair<Disk, Point> x) -> {
-        return x.x;
-      }).collect(Collectors.toList()).toString());
-    } else {
-      System.out.println("apexDisks=[]");
-    }
-    SilverConfig config = getSilverTriangleConfiguration(orientedNonNegativeTangentLine, preApexDisk,
-        postApexDisk, apexDisks);
+    List<Disk> nonPositiveDisks = DisksUtil.findExpandedNonPositiveDisks(disks,
+        orientedNonNegativeTangentLine, preApexDisk, postApexDisk);
+    nonPositiveDisks = nonPositiveDisks.stream().filter((x) -> (!x.equals(preApexDisk) && !x.equals(postApexDisk)))
+        .collect(Collectors.toList());
+
+    System.out.println("onPositiveDisks=" + onPositiveDisks.toString());
+    System.out.println("nonPositiveDisks=" + nonPositiveDisks.toString());
+
+    SilverConfig config = getSilverTriangleConfiguration(
+        nonPositiveDisks, onPositiveDisks, orientedNonNegativeTangentLine, preApexDisk,
+        postApexDisk);
     System.out.println("SilverTriangleConfig found");
     System.out.println("inside silverconfig, disk.size=" + disks.size());
     System.out.println("configuration=" + config);
@@ -134,35 +132,31 @@ public class SilverTriangleFilterUtil {
       }
 
       case CASE_B: {
-        Random random = new Random(apexDisks.size() - 1);
+        Random random = new Random();
 
-        Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
-        while (apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
-          apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
+        Disk tApexDisk = onPositiveDisks.get(random.nextInt(onPositiveDisks.size() - 1));
+        while (tApexDisk.equals(preApexDisk) || tApexDisk.equals(postApexDisk)) {
+          tApexDisk = onPositiveDisks.get(random.nextInt(onPositiveDisks.size()) - 1);
         }
 
-        apexDisk.update(apexDiskPair.x);
-        triangleApexX.update(apexDiskPair.y);
-
+        apexDisk.update(tApexDisk);
+        triangleApexX.update(tApexDisk.findFarthestPoint(orientedNonNegativeTangentLine));
         break;
       }
 
       case CASE_C1: {
-        apexDisk.update(apexDisks.get(0).x);
-        triangleApexX.update(apexDisks.get(0).y);
+        apexDisk.update(onPositiveDisks.get(0));
+        triangleApexX.update(onPositiveDisks.get(0).findFarthestPoint(orientedNonNegativeTangentLine));
         break;
       }
 
       case CASE_C2: {
-        Random random = new Random(apexDisks.size() - 1);
-
-        Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt());
-        while (apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
-          apexDiskPair = apexDisks.get(random.nextInt());
+        Random random = new Random();
+        Disk tApexDisk = nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1));
+        while (tApexDisk.equals(preApexDisk) || tApexDisk.equals(postApexDisk)) {
+          tApexDisk = nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1));
         }
-
-        apexDisk.update(apexDiskPair.x);
-        triangleApexX.update(apexDiskPair.y);
+        apexDisk.update(tApexDisk);
         break;
       }
     }

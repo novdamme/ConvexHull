@@ -96,28 +96,32 @@ public class DisksUtil {
 
   // Atm this is double work but I dont want to break anything youve made at this
   // point
-  public static List<Pair<Disk, Point>> findOnPositiveDisks(List<Disk> disks, Line orientedLinePQ, Disk startDisk,
+  public static List<Disk> findOnPositiveDisks(List<Disk> disks, Line orientedLinePQ, Disk startDisk,
       Disk endDisk) {
     double largestDistance = 0.0;
-    List<Pair<Disk, Point>> apexDisks = new ArrayList<>();
+    List<Disk> onPositiveDisks = new ArrayList<>();
 
     for (Disk disk : disks) {
-      // if (disk.equals(startDisk) || disk.equals(endDisk)) {
-      // continue;
-      // }
+      if (disk.equals(startDisk) || disk.equals(endDisk)) {
+        continue;
+      }
       double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.getDistance(disk.getCenter());
       if (distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;
-        apexDisks = new ArrayList<>();
-        Point farthesPoint = disk.findFarthestPoint(orientedLinePQ);
+        onPositiveDisks = new ArrayList<>();
 
-        apexDisks.add(new Pair<Disk, Point>(disk, farthesPoint));
+        onPositiveDisks.add(disk);
       } else if (distanceOfCurrentDisk == largestDistance) {
-        Point farthesPoint = disk.findFarthestPoint(orientedLinePQ);
-        apexDisks.add(new Pair<Disk, Point>(disk, farthesPoint));
+        onPositiveDisks.add(disk);
       }
     }
-    return apexDisks;
+    if (startDisk.equals(endDisk)) {
+      onPositiveDisks.add(startDisk);
+    } else {
+      onPositiveDisks.add(startDisk);
+      onPositiveDisks.add(endDisk);
+    }
+    return onPositiveDisks;
   }
 
   public static List<Disk> findExpandedNonPositiveDisks(List<Disk> disks, Line orientedLine, Disk startDisk,
@@ -140,7 +144,6 @@ public class DisksUtil {
       nonPositiveDisks.add(startDisk);
       nonPositiveDisks.add(endDisk);
     }
-
     return nonPositiveDisks;
   }
 
