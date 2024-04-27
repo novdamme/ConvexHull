@@ -105,8 +105,8 @@ public class SilverTriangleFilterUtil {
     nonPositiveDisks = nonPositiveDisks.stream().filter((x) -> (!x.equals(preApexDisk) && !x.equals(postApexDisk)))
         .collect(Collectors.toList());
 
-    System.out.println("onPositiveDisks=" + onPositiveDisks.toString());
-    System.out.println("nonPositiveDisks=" + nonPositiveDisks.toString());
+    // System.out.println("onPositiveDisks=" + onPositiveDisks.toString());
+    // System.out.println("nonPositiveDisks=" + nonPositiveDisks.toString());
 
     SilverConfig config = getSilverTriangleConfiguration(
         nonPositiveDisks, onPositiveDisks, orientedNonNegativeTangentLine, preApexDisk,
