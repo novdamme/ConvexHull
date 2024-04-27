@@ -25,11 +25,10 @@ public class Line {
   public double getDistance(Point p) {
     // This did not work in testing
     // Point s2pVector = new Point(p.getX() - start.getX(), p.getY()- start.getY());
-    // Point lineVector = new Point(end.getX() - start.getX(), end.getY() -
-    // start.getY());
+    // Point lineVector = new Point(end.getX() - start.getX(), end.getY() - start.getY());
 
-    // return (lineVector.getX()*s2pVector.getY() -
-    // lineVector.getY()*s2pVector.getX())/ lineVector.getMagnitude();
+    // return (lineVector.getX()*s2pVector.getY() - lineVector.getY()*s2pVector.getX())/ lineVector.getMagnitude();
+
 
     double x0 = p.getX();
     double y0 = p.getY();
@@ -37,10 +36,14 @@ public class Line {
     double y1 = start.getY();
     double x2 = end.getX();
     double y2 = end.getY();
-    double area = (x2 - x1) * (y0 - y1) - (x0 - x1) * (y2 - y1);
-    double length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
-    double distance = area / length;
 
+    double A = y2 -y1;
+    double B = x1 - x2;
+    double C = x2*y1 -x1*y2;
+    double distance = Math.abs(A*x0 + B*y0 + C) / Math.sqrt(A*A + B*B);
+    //double area = (x2 - x1) * (y0 - y1) - (x0 - x1) * (y2 - y1);
+    //double length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+    //double distance = area / length;
     return distance;
   }
 

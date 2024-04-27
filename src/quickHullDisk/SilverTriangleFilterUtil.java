@@ -20,6 +20,7 @@ public class SilverTriangleFilterUtil {
     CASE_C1,
     CASE_C2
   };
+  private final static Random random = new Random(1);
 
   /**
    * Quick method to check whether a triangle configuration is silver
@@ -119,7 +120,6 @@ public class SilverTriangleFilterUtil {
     System.out.println("postApexDisk=" + postApexDisk.toString());
     switch (config) {
       case CASE_A: {
-        Random random = new Random(1);
         if (1 == random.nextInt(1)) {
           triangleApexX.update(orientedNonNegativeTangentLine.getStart());
         } else {
@@ -132,7 +132,6 @@ public class SilverTriangleFilterUtil {
       }
 
       case CASE_B: {
-        Random random = new Random();
         List<Disk> onPositiveDisksWithouthDqDp = onPositiveDisks.stream()
             .filter((x) -> (x.equals(preApexDisk) || x.equals(postApexDisk))).collect(Collectors.toList());
 
@@ -148,7 +147,6 @@ public class SilverTriangleFilterUtil {
       }
 
       case CASE_C2: {
-        Random random = new Random();
         apexDisk.update(nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1)));
         triangleApexX.update(apexDisk.findFarthestPoint(orientedNonNegativeTangentLine));
         break;

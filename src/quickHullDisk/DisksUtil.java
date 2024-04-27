@@ -17,12 +17,12 @@ public class DisksUtil {
     Disk diskWithHighLeftExtremePoint = disks.get(0);
 
     for (Disk disk : disks) {
-      double leftMostXDiff = disk.getLeftMostX() - diskWithHighLeftExtremePoint.getLeftMostX();
-      if (leftMostXDiff < 0) {
+      if (disk.getLeftMostX() < diskWithHighLeftExtremePoint.getLeftMostX()) {
         diskWithHighLeftExtremePoint = disk;
-      } else if (leftMostXDiff == 0) {
-        double yDiff = disk.getCenter().getY() - diskWithHighLeftExtremePoint.getCenter().getY();
-        if (yDiff > 0 || (yDiff == 0 && disk.getRadius() > diskWithHighLeftExtremePoint.getRadius())) {
+      } else if (disk.getLeftMostX() == diskWithHighLeftExtremePoint.getLeftMostX()) {
+        if (disk.getCenter().getY() > diskWithHighLeftExtremePoint.getCenter().getY()) {
+          diskWithHighLeftExtremePoint = disk;
+        } else if ((disk.getCenter().getY() == diskWithHighLeftExtremePoint.getCenter().getY() && disk.getRadius() > diskWithHighLeftExtremePoint.getRadius())) {
           diskWithHighLeftExtremePoint = disk;
         }
       }
@@ -33,12 +33,12 @@ public class DisksUtil {
   public static Disk findDiskWithLowRightExtremePoint(List<Disk> disks) {
     Disk diskWithLowRightExtremePoint = disks.get(0);
     for (Disk disk : disks) {
-      double rightMostXDiff = disk.getRightMostX() - diskWithLowRightExtremePoint.getRightMostX();
-      if (rightMostXDiff > 0) {
+      if (disk.getRightMostX() > diskWithLowRightExtremePoint.getRightMostX()) {
         diskWithLowRightExtremePoint = disk;
-      } else if (rightMostXDiff == 0) {
-        double yDiff = disk.getCenter().getY() - diskWithLowRightExtremePoint.getCenter().getY();
-        if (yDiff < 0 || (yDiff == 0 && disk.getRadius() > diskWithLowRightExtremePoint.getRadius())) {
+      } else if (disk.getRightMostX() == diskWithLowRightExtremePoint.getRightMostX()) {
+        if (disk.getCenter().getY() < diskWithLowRightExtremePoint.getCenter().getY()) {
+          diskWithLowRightExtremePoint = disk;
+        } else if (disk.getCenter().getY() == diskWithLowRightExtremePoint.getCenter().getY() && disk.getRadius() > diskWithLowRightExtremePoint.getRadius()) {
           diskWithLowRightExtremePoint = disk;
         }
       }
@@ -77,14 +77,15 @@ public class DisksUtil {
   }
 
   public static Disk findApexDisk(List<Disk> disks, Line orientedLinePQ) {
-    double largestDistance = -Double.MAX_VALUE;
+    double largestDistance = 0;
     Disk apexDisk = null;
 
     for (Disk disk : disks) {
       double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.getDistance(disk.getCenter());
-      if (distanceOfCurrentDisk > largestDistance) {
+      if (apexDisk == null || distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;
         apexDisk = disk;
+        System.out.println("LargestDistance="+largestDistance + ",disk="+disk);
       } else if (distanceOfCurrentDisk == largestDistance) {
         if (random.nextInt(2) == 1) {
           apexDisk = disk;
