@@ -8,4 +8,9 @@ public class Pair<T1, T2> {
     this.x = x;
     this.y = y;
   }
+
+  @Override
+  public String toString() {
+    return "[" + x.toString() + ", " + y.toString() + "]";
+  }
 }

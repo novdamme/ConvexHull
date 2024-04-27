@@ -53,18 +53,17 @@ public class DisksUtil {
 
     if (signedDistance <= -disk.getRadius() + 1e-6) {
       return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -disk.getRadius() - 1e-6
-              && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > disk.getRadius() + 1e-6;
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > disk.getRadius() + 1e-6;
     } else if (signedDistance > -disk.getRadius() + 1e-6 && signedDistance < disk.getRadius() - 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < - 1e-6
-              && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > + 1e-6;
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -1e-6
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > +1e-6;
     } else if (Math.abs(signedDistance - disk.getRadius()) < 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < - 1e-6
-              && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > + 1e-6;
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -1e-6
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > +1e-6;
     } else {
       return false;
     }
   }
-
 
   public static void findInitialDiskSets(List<Disk> disks, Line orientedLinePQ, List<Disk> initialDR,
       List<Disk> initialDL) {
@@ -103,6 +102,9 @@ public class DisksUtil {
     List<Pair<Disk, Point>> apexDisks = new ArrayList<>();
 
     for (Disk disk : disks) {
+      if (disk.equals(startDisk) || disk.equals(endDisk)) {
+        continue;
+      }
       double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.getDistance(disk.getCenter());
       if (distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;

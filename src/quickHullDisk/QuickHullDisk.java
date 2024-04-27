@@ -4,6 +4,7 @@ import dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class QuickHullDisk {
 
@@ -45,7 +46,7 @@ public class QuickHullDisk {
       hullDisks.add(preApexDisk);
       return;
     }
-    if (disks.size() == 2 && preApexDisk.equals(postApexDisk)) {
+    if (disks.size() == 2 && !preApexDisk.equals(postApexDisk)) {
       hullDisks.add(preApexDisk);
       hullDisks.add(postApexDisk);
       return;
@@ -54,7 +55,8 @@ public class QuickHullDisk {
     Line orientedLine = new Line(hullPointP, hullPointQ);
     Disk apexDisk = DisksUtil.findApexDisk(disks, orientedLine);
     // List<Disk> containedDisks = new ArrayList<>();
-    // apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks, containedDisks);
+    // apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks,
+    // containedDisks);
     // System.out.println("containedDisks size: " + containedDisks.size());
     // disks.removeAll(containedDisks);
     // disks.add(apexDisk);
@@ -87,12 +89,13 @@ public class QuickHullDisk {
     // System.out.println(frontEdgeDisks.size());
     // System.out.println(backEdgeDisks.size());
     // try {
-    //   TimeUnit.SECONDS.sleep(1);
+    // TimeUnit.MILLISECONDS.sleep(10);
     // } catch (InterruptedException e) {
-    //   e.printStackTrace();
+    // e.printStackTrace();
     // }
 
-    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size() + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size()
+        + " and backEdgeDisks.size()=" + backEdgeDisks.size());
     findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
     findHull(new ArrayList<>(backEdgeDisks), apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
   }

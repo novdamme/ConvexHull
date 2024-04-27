@@ -79,4 +79,9 @@ public class Disk {
         unitVector.getY() * this.getRadius() + this.getCenter().getY());
     return farthesPoint;
   }
+
+  @Override
+  public String toString() {
+    return "{center: " + center.toString() + ", radius: " + radius + "}";
+  }
 }

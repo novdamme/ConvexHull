@@ -7,6 +7,7 @@ import dto.Point;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class SilverTriangleFilterUtil {
 
@@ -53,10 +54,14 @@ public class SilverTriangleFilterUtil {
   public static SilverConfig getSilverTriangleConfiguration(List<Disk> disks, Line orientedLinePQ, Disk startDisk,
       Disk endDisk, List<Pair<Disk, Point>> apexDisks) {
     System.out.println("SilverTriangleConfig found");
-    Disk apex = apexDisks.get(0).x;
-    double height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter());
+    double height = 0;
+    if (apexDisks.size() > 0) {
+      Disk apex = apexDisks.get(0).x;
+      height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter());
+    }
+
     if (height == 0) {
-      if (apexDisks.size() == 1) {
+      if (apexDisks.size() == 0) {
         return SilverConfig.CASE_A;
       } else {
         return SilverConfig.CASE_B;
@@ -101,21 +106,36 @@ public class SilverTriangleFilterUtil {
         postApexDisk, apexDisks);
     System.out.println("inside silverconfig, disk.size=" + disks.size());
     System.out.println("configuration=" + config);
+    if (apexDisks.size() > 0) {
+      System.out.println("apexDisks=" + apexDisks.stream().map((Pair<Disk, Point> x) -> {
+        return x.x;
+      }).collect(Collectors.toList()).toString());
+    } else {
+      System.out.println("apexDisks=[]");
+    }
+    System.out.println("preApexDisk=" + preApexDisk.toString());
+    System.out.println("postApexDisk=" + postApexDisk.toString());
     switch (config) {
       case CASE_A: {
-        triangleApexX.update(orientedNonNegativeTangentLine.getStart());
+        Random random = new Random(1);
+        if (1 == random.nextInt(1)) {
+          triangleApexX.update(orientedNonNegativeTangentLine.getStart());
+        } else {
+          triangleApexX.update(orientedNonNegativeTangentLine.getEnd());
+        }
+        System.out.println(orientedNonNegativeTangentLine.getStart() + ", " + orientedNonNegativeTangentLine.getEnd());
+
         apexDisk.update(preApexDisk);
         break;
       }
 
       case CASE_B: {
-
         Random random = new Random(apexDisks.size() - 1);
 
         Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
         while (apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
           apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
-          System.out.println("afewf");
+          // System.out.println("afewf");
         }
 
         apexDisk.update(apexDiskPair.x);
