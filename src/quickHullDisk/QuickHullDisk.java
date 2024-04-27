@@ -42,6 +42,7 @@ public class QuickHullDisk {
 
   private void findHull(List<Disk> disks, Disk preApexDisk, Disk postApexDisk, Point hullPointP, Point hullPointQ) {
 
+    System.out.println(disks.size());
     if (disks.size() == 1) {
       hullDisks.add(preApexDisk);
       return;
@@ -54,16 +55,17 @@ public class QuickHullDisk {
 
     Line orientedLine = new Line(hullPointP, hullPointQ);
     Disk apexDisk = DisksUtil.findApexDisk(disks, orientedLine);
+
+    Point apexDiskFarthestPoint = apexDisk.findFarthestPoint(orientedLine);
+    Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
+    Line orientedBackEdgeLine = new Line(apexDiskFarthestPoint, hullPointQ);
+
+    // This would help with performace we can test it when it actually works
     // List<Disk> containedDisks = new ArrayList<>();
     // apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks,
     // containedDisks);
     // System.out.println("containedDisks size: " + containedDisks.size());
     // disks.removeAll(containedDisks);
-    // disks.add(apexDisk);
-
-    Point apexDiskFarthestPoint = apexDisk.findFarthestPoint(orientedLine);
-    Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
-    Line orientedBackEdgeLine = new Line(apexDiskFarthestPoint, hullPointQ);
 
     List<Disk> frontEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedFrontEdgeLine, preApexDisk,
         apexDisk);
@@ -85,17 +87,17 @@ public class QuickHullDisk {
           apexDisk,
           apexDiskFarthestPoint);
     }
-
-    // System.out.println(frontEdgeDisks.size());
-    // System.out.println(backEdgeDisks.size());
-    // try {
-    // TimeUnit.MILLISECONDS.sleep(10);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
+    try {
+      TimeUnit.MILLISECONDS.sleep(10);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size()
         + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+    System.out.println("dp=" + preApexDisk.toString());
+    System.out.println("dq=" + postApexDisk.toString());
+    System.out.println("dx=" + apexDiskFarthestPoint.toString());
     findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
     findHull(new ArrayList<>(backEdgeDisks), apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
   }

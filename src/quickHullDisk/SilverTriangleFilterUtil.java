@@ -51,16 +51,18 @@ public class SilverTriangleFilterUtil {
    * @param apexDisks
    * @return
    */
-  public static SilverConfig getSilverTriangleConfiguration(List<Disk> disks, Line orientedLinePQ, Disk startDisk,
+  public static SilverConfig getSilverTriangleConfiguration(Line orientedLinePQ, Disk startDisk,
       Disk endDisk, List<Pair<Disk, Point>> apexDisks) {
-    System.out.println("SilverTriangleConfig found");
     double height = 0;
+
     if (apexDisks.size() > 0) {
       Disk apex = apexDisks.get(0).x;
       height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter());
     }
 
-    if (height == 0) {
+    if ((height > 0 ? height : -height) < 1e-6) {
+      apexDisks = apexDisks.stream().filter((x) -> (!x.x.equals(startDisk) && !x.x.equals(endDisk)))
+          .collect(Collectors.toList());
       if (apexDisks.size() == 0) {
         return SilverConfig.CASE_A;
       } else {
@@ -102,10 +104,6 @@ public class SilverTriangleFilterUtil {
     Line orientedNonNegativeTangentLine = computeOrientedTangentLine(preApexDisk, postApexDisk);
     List<Pair<Disk, Point>> apexDisks = DisksUtil.findOnPositiveDisks(disks, orientedNonNegativeTangentLine,
         preApexDisk, postApexDisk);
-    SilverConfig config = getSilverTriangleConfiguration(disks, orientedNonNegativeTangentLine, preApexDisk,
-        postApexDisk, apexDisks);
-    System.out.println("inside silverconfig, disk.size=" + disks.size());
-    System.out.println("configuration=" + config);
     if (apexDisks.size() > 0) {
       System.out.println("apexDisks=" + apexDisks.stream().map((Pair<Disk, Point> x) -> {
         return x.x;
@@ -113,6 +111,12 @@ public class SilverTriangleFilterUtil {
     } else {
       System.out.println("apexDisks=[]");
     }
+    SilverConfig config = getSilverTriangleConfiguration(orientedNonNegativeTangentLine, preApexDisk,
+        postApexDisk, apexDisks);
+    System.out.println("SilverTriangleConfig found");
+    System.out.println("inside silverconfig, disk.size=" + disks.size());
+    System.out.println("configuration=" + config);
+
     System.out.println("preApexDisk=" + preApexDisk.toString());
     System.out.println("postApexDisk=" + postApexDisk.toString());
     switch (config) {
@@ -135,7 +139,6 @@ public class SilverTriangleFilterUtil {
         Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
         while (apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
           apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
-          // System.out.println("afewf");
         }
 
         apexDisk.update(apexDiskPair.x);

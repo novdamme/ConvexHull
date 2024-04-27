@@ -52,14 +52,14 @@ public class DisksUtil {
     double signedDistance = orientedLine.getDistance(disk.getCenter());
 
     if (signedDistance <= -disk.getRadius() + 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -disk.getRadius() - 1e-6
-          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > disk.getRadius() + 1e-6;
-    } else if (signedDistance > -disk.getRadius() + 1e-6 && signedDistance < disk.getRadius() - 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -1e-6
-          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > +1e-6;
-    } else if (Math.abs(signedDistance - disk.getRadius()) < 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -1e-6
-          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > +1e-6;
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -disk.getRadius()
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > disk.getRadius();
+    } else if (signedDistance > -disk.getRadius() + 1e-6 && signedDistance < disk.getRadius()) {
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < 0
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > 0;
+    } else if (Math.abs(signedDistance - disk.getRadius()) < 0) {
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < 0
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > 0;
     } else {
       return false;
     }
@@ -102,9 +102,9 @@ public class DisksUtil {
     List<Pair<Disk, Point>> apexDisks = new ArrayList<>();
 
     for (Disk disk : disks) {
-      if (disk.equals(startDisk) || disk.equals(endDisk)) {
-        continue;
-      }
+      // if (disk.equals(startDisk) || disk.equals(endDisk)) {
+      // continue;
+      // }
       double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.getDistance(disk.getCenter());
       if (distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;
