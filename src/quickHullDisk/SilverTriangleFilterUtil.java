@@ -36,7 +36,7 @@ public class SilverTriangleFilterUtil {
       int numOfDisksOnBackEdge,
       Disk preApexDisk,
       Disk postApexDisk) {
-    return ( !preApexDisk.equals(postApexDisk) && (numOfDisksOnFrontEdge == numOfDisks && numOfDisksOnBackEdge == 1)
+    return (!preApexDisk.equals(postApexDisk) && (numOfDisksOnFrontEdge == numOfDisks && numOfDisksOnBackEdge == 1)
         || (numOfDisksOnFrontEdge == 1 && numOfDisksOnBackEdge == numOfDisks));
   }
 
@@ -56,7 +56,7 @@ public class SilverTriangleFilterUtil {
     Disk apex = apexDisks.get(0).x;
     double height = apex.getRadius() - orientedLinePQ.getDistance(apex.getCenter());
     if (height == 0) {
-      if (apexDisks.size() > 2) {
+      if (apexDisks.size() == 1) {
         return SilverConfig.CASE_A;
       } else {
         return SilverConfig.CASE_B;
@@ -115,6 +115,7 @@ public class SilverTriangleFilterUtil {
         Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
         while (apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
           apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
+          System.out.println("afewf");
         }
 
         apexDisk.update(apexDiskPair.x);
@@ -170,10 +171,10 @@ public class SilverTriangleFilterUtil {
     double totalDistance = t1.getDistance(d1.getCenter()) + t1.getDistance(d2.getCenter());
 
     if (totalDistance > 0) {
-      //System.out.println("t1 was chosen");
+      // System.out.println("t1 was chosen");
       return t1;
     } else {
-      //System.out.println("t2 was chosen");
+      // System.out.println("t2 was chosen");
       return t2;
     }
   }
@@ -208,8 +209,10 @@ public class SilverTriangleFilterUtil {
    * @return
    */
   public static Double[] getTangentLines(Disk inputD1, Disk inputD2) {
-    //System.out.println(inputD1.getCenter().getX() + ", " + inputD1.getCenter().getY() + ", " + inputD1.getRadius());
-    //System.out.println(inputD2.getCenter().getX() + ", " + inputD2.getCenter().getY() + ", " + inputD2.getRadius());
+    // System.out.println(inputD1.getCenter().getX() + ", " +
+    // inputD1.getCenter().getY() + ", " + inputD1.getRadius());
+    // System.out.println(inputD2.getCenter().getX() + ", " +
+    // inputD2.getCenter().getY() + ", " + inputD2.getRadius());
     Disk d1;
     Disk d2;
     if (inputD2.getRadius() > inputD1.getRadius()) {
@@ -237,8 +240,8 @@ public class SilverTriangleFilterUtil {
     double b2 = R * Y - (X * Math.sqrt(1 - (R * R)));
     double c2 = d1.getRadius() - (a2 * d1.getCenter().getX() + (b2 * d1.getCenter().getY()));
 
-    //System.out.println(a1 + " " + b1 + " " + c1);
-    //System.out.println(a2 + " " + b2 + " " + c2);
+    // System.out.println(a1 + " " + b1 + " " + c1);
+    // System.out.println(a2 + " " + b2 + " " + c2);
 
     Double[] res = { a1, b1, c1, a2, b2, c2 };
 
