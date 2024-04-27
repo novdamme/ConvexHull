@@ -61,6 +61,7 @@ public class QuickHullDisk {
     Line orientedBackEdgeLine = new Line(apexDiskFarthestPoint, hullPointQ);
 
     // This would help with performace we can test it when it actually works
+    // System.out.println(disks);
     // List<Disk> containedDisks = new ArrayList<>();
     // apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks,
     // containedDisks);

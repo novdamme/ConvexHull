@@ -37,8 +37,8 @@ public class SilverTriangleFilterUtil {
       int numOfDisksOnBackEdge,
       Disk preApexDisk,
       Disk postApexDisk) {
-    return (!preApexDisk.equals(postApexDisk) && (numOfDisksOnFrontEdge == numOfDisks && numOfDisksOnBackEdge == 1)
-        || (numOfDisksOnFrontEdge == 1 && numOfDisksOnBackEdge == numOfDisks));
+    return (!preApexDisk.equals(postApexDisk) && ((numOfDisksOnFrontEdge == numOfDisks && numOfDisksOnBackEdge == 1)
+        || (numOfDisksOnFrontEdge == 1 && numOfDisksOnBackEdge == numOfDisks)));
   }
 
   /**
