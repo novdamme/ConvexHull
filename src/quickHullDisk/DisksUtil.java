@@ -46,6 +46,26 @@ public class DisksUtil {
     return diskWithLowRightExtremePoint;
   }
 
+  private static boolean diskIsAMemberOfExpandedNonPositiveSet(Disk disk, Line orientedLine) {
+    Line orthogonalLineAtStartPoint = orientedLine.makePerpendicularLine(orientedLine.getStart());
+    Line orthogonalLineAtEndPoint = orientedLine.makePerpendicularLine(orientedLine.getEnd());
+    double signedDistance = orientedLine.getDistance(disk.getCenter());
+
+    if (signedDistance <= -disk.getRadius() + 1e-6) {
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -disk.getRadius() - 1e-6
+              && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > disk.getRadius() + 1e-6;
+    } else if (signedDistance > -disk.getRadius() + 1e-6 && signedDistance < disk.getRadius() - 1e-6) {
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < - 1e-6
+              && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > + 1e-6;
+    } else if (Math.abs(signedDistance - disk.getRadius()) < 1e-6) {
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < - 1e-6
+              && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > + 1e-6;
+    } else {
+      return false;
+    }
+  }
+
+
   public static void findInitialDiskSets(List<Disk> disks, Line orientedLinePQ, List<Disk> initialDR,
       List<Disk> initialDL) {
     for (Disk disk : disks) {
@@ -58,7 +78,7 @@ public class DisksUtil {
   }
 
   public static Disk findApexDisk(List<Disk> disks, Line orientedLinePQ) {
-    double largestDistance = 0.0;
+    double largestDistance = -Double.MAX_VALUE;
     Disk apexDisk = null;
 
     for (Disk disk : disks) {
@@ -106,7 +126,7 @@ public class DisksUtil {
         if (disk.equals(startDisk) || disk.equals(endDisk)) {
           continue;
         }
-        if (orientedLine.getDistance(disk.getCenter()) <= disk.getRadius() + 1e-6) { // nonPositive
+        if (diskIsAMemberOfExpandedNonPositiveSet(disk, orientedLine)) { // nonPositive
           nonPositiveDisks.add(disk);
         }
       }

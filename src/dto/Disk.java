@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Disk {
 
   private Point center;
-  private final double radius;
+  private double radius;
 
   public Disk(double x, double y, double r) {
     this.center = new Point(x, y);
@@ -16,6 +16,11 @@ public class Disk {
     this.center = point;
     this.radius = r;
 
+  }
+
+  public void update(Disk d) {
+    this.center = d.center;
+    this.radius = d.radius;
   }
 
   @Override

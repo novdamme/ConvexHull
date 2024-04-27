@@ -4,7 +4,6 @@ import dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class QuickHullDisk {
 
@@ -41,8 +40,9 @@ public class QuickHullDisk {
   }
 
   private void findHull(List<Disk> disks, Disk preApexDisk, Disk postApexDisk, Point hullPointP, Point hullPointQ) {
+
     if (disks.size() == 1) {
-      this.hullDisks.add(disks.get(0));
+      hullDisks.add(preApexDisk);
       return;
     }
     if (disks.size() == 2 && preApexDisk.equals(postApexDisk)) {
@@ -53,11 +53,11 @@ public class QuickHullDisk {
 
     Line orientedLine = new Line(hullPointP, hullPointQ);
     Disk apexDisk = DisksUtil.findApexDisk(disks, orientedLine);
-    List<Disk> containedDisks = new ArrayList<>();
-    apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks, containedDisks);
-    System.out.println("containedDisks size: " + containedDisks.size());
-    disks.removeAll(containedDisks);
-    disks.add(apexDisk);
+    // List<Disk> containedDisks = new ArrayList<>();
+    // apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks, containedDisks);
+    // System.out.println("containedDisks size: " + containedDisks.size());
+    // disks.removeAll(containedDisks);
+    // disks.add(apexDisk);
 
     Point apexDiskFarthestPoint = apexDisk.findFarthestPoint(orientedLine);
     Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
@@ -92,12 +92,13 @@ public class QuickHullDisk {
     //   e.printStackTrace();
     // }
 
-    findHull(frontEdgeDisks, preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
-    findHull(backEdgeDisks, apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
+    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size() + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+    findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
+    findHull(new ArrayList<>(backEdgeDisks), apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
   }
 
   public static void main(String[] args) {
-    List<Disk> inputDisks = DiskIO.parse("resources/MIXED/N100000_10.txt");
+    List<Disk> inputDisks = DiskIO.parse("resources/RANDOM/N10000.txt");
     QuickHullDisk qhd = new QuickHullDisk();
     qhd.run(inputDisks);
   }

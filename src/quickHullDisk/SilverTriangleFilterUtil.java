@@ -99,30 +99,33 @@ public class SilverTriangleFilterUtil {
         preApexDisk, postApexDisk);
     SilverConfig config = getSilverTriangleConfiguration(disks, orientedNonNegativeTangentLine, preApexDisk,
         postApexDisk, apexDisks);
-
+    System.out.println("inside silverconfig, disk.size=" + disks.size());
+    System.out.println("configuration=" + config);
     switch (config) {
       case CASE_A: {
-        triangleApexX = orientedNonNegativeTangentLine.getStart();
-        apexDisk = preApexDisk;
-
+        triangleApexX.update(orientedNonNegativeTangentLine.getStart());
+        apexDisk.update(preApexDisk);
+        break;
       }
 
       case CASE_B: {
+
         Random random = new Random(apexDisks.size() - 1);
 
-        Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt());
+        Pair<Disk, Point> apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
         while (apexDisk.equals(preApexDisk) || apexDisk.equals(postApexDisk)) {
-          apexDiskPair = apexDisks.get(random.nextInt());
+          apexDiskPair = apexDisks.get(random.nextInt(apexDisks.size()));
         }
 
-        apexDisk = apexDiskPair.x;
-        triangleApexX = apexDiskPair.y;
+        apexDisk.update(apexDiskPair.x);
+        triangleApexX.update(apexDiskPair.y);
+
         break;
       }
 
       case CASE_C1: {
-        apexDisk = apexDisks.get(0).x;
-        triangleApexX = apexDisks.get(0).y;
+        apexDisk.update(apexDisks.get(0).x);
+        triangleApexX.update(apexDisks.get(0).y);
         break;
       }
 
@@ -134,17 +137,15 @@ public class SilverTriangleFilterUtil {
           apexDiskPair = apexDisks.get(random.nextInt());
         }
 
-        apexDisk = apexDiskPair.x;
-        triangleApexX = apexDiskPair.y;
+        apexDisk.update(apexDiskPair.x);
+        triangleApexX.update(apexDiskPair.y);
         break;
       }
     }
     Line orientedFrontEdgeLine = new Line(hullPointP, triangleApexX);
     Line orientedBackEdgeLine = new Line(triangleApexX, hullPointQ);
-    frontEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedFrontEdgeLine, preApexDisk,
-        apexDisk);
-    backEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedBackEdgeLine, apexDisk,
-        postApexDisk);
+    frontEdgeDisks.addAll(DisksUtil.findExpandedNonPositiveDisks(disks, orientedFrontEdgeLine, preApexDisk, apexDisk));
+    backEdgeDisks.addAll(DisksUtil.findExpandedNonPositiveDisks(disks, orientedBackEdgeLine, apexDisk, postApexDisk));
   }
 
   /**
@@ -169,10 +170,10 @@ public class SilverTriangleFilterUtil {
     double totalDistance = t1.getDistance(d1.getCenter()) + t1.getDistance(d2.getCenter());
 
     if (totalDistance > 0) {
-      System.out.println("t1 was chosen");
+      //System.out.println("t1 was chosen");
       return t1;
     } else {
-      System.out.println("t2 was chosen");
+      //System.out.println("t2 was chosen");
       return t2;
     }
   }
@@ -207,8 +208,8 @@ public class SilverTriangleFilterUtil {
    * @return
    */
   public static Double[] getTangentLines(Disk inputD1, Disk inputD2) {
-    System.out.println(inputD1.getCenter().getX() + ", " + inputD1.getCenter().getY() + ", " + inputD1.getRadius());
-    System.out.println(inputD2.getCenter().getX() + ", " + inputD2.getCenter().getY() + ", " + inputD2.getRadius());
+    //System.out.println(inputD1.getCenter().getX() + ", " + inputD1.getCenter().getY() + ", " + inputD1.getRadius());
+    //System.out.println(inputD2.getCenter().getX() + ", " + inputD2.getCenter().getY() + ", " + inputD2.getRadius());
     Disk d1;
     Disk d2;
     if (inputD2.getRadius() > inputD1.getRadius()) {
@@ -236,8 +237,8 @@ public class SilverTriangleFilterUtil {
     double b2 = R * Y - (X * Math.sqrt(1 - (R * R)));
     double c2 = d1.getRadius() - (a2 * d1.getCenter().getX() + (b2 * d1.getCenter().getY()));
 
-    System.out.println(a1 + " " + b1 + " " + c1);
-    System.out.println(a2 + " " + b2 + " " + c2);
+    //System.out.println(a1 + " " + b1 + " " + c1);
+    //System.out.println(a2 + " " + b2 + " " + c2);
 
     Double[] res = { a1, b1, c1, a2, b2, c2 };
 
