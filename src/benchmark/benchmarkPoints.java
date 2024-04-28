@@ -4,6 +4,7 @@ import convexHullPoints.ConvexHull;
 import convexHullPoints.ConvexHullAlgorithm;
 import convexHullPoints.GrahamScan;
 import dto.Point;
+import giftwrapping.GiftWrappingAlgorithm;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +15,8 @@ import java.util.List;
 public class benchmarkPoints {
     private static final ConvexHullAlgorithm[] algorithms = {
             new ConvexHull(),
-            new GrahamScan()
+            new GrahamScan(),
+            new GiftWrappingAlgorithm()
     };
     private static final String[] files = {
             "resources/MIXED/N100000_10.txt"
