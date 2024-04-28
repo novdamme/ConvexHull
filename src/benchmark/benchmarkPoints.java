@@ -40,16 +40,20 @@ public class benchmarkPoints {
 
     public static void main(String[] args) {
         for (String file : files) {
+            List<Point> inputPoints = parse(file);
             for (ConvexHullAlgorithm algorithm : algorithms) {
-                List<Point> inputPoints = parse(file);
-                long start = System.currentTimeMillis();
                 System.out.println("Testing file: " + file);
                 System.out.println("Testing algorithm: " + algorithm.getClass().getSimpleName());
-                List<Point> hull = algorithm.convexHull(inputPoints);
-                long end = System.currentTimeMillis();
+                List<Point> hull = null;
+                for (int i = 0; i < 5; i++) {
+                    List<Point> input = new ArrayList<>(inputPoints);
+                    long start = System.currentTimeMillis();
+                    hull = algorithm.convexHull(input);
+                    long end = System.currentTimeMillis();
+                    System.out.println("Time (" + i + "): " + (end - start));
+                }
                 System.out.println("Convex hull: " + hull);
                 System.out.println("Size: " + hull.size());
-                System.out.println("Time: " + (end - start));
                 System.out.println();
             }
         }

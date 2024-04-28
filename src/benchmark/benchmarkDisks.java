@@ -19,6 +19,7 @@ public class benchmarkDisks {
             List<Disk> inputDisks = DiskIO.parse(file);
             long start = System.currentTimeMillis();
             qhd.run(inputDisks);
+            System.out.println(qhd.hullDisks.size());
             long end = System.currentTimeMillis();
             System.out.println("Time: " + (end - start));
             System.out.println();

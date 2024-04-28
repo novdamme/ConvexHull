@@ -40,7 +40,6 @@ public class GrahamScan implements ConvexHullAlgorithm {
                 stack.push(p1);
             }
         }
-        Collections.reverse(stack);
         return new ArrayList<>(stack);
     }
 
