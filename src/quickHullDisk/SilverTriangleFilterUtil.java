@@ -57,9 +57,7 @@ public class SilverTriangleFilterUtil {
   public static SilverConfig getSilverTriangleConfiguration(
       List<Disk> nonPositiveDisks,
       List<Disk> onPositiveDisks,
-      Line orientedLinePQ,
-      Disk endDisk,
-      Disk startDisk) {
+      Line orientedLinePQ) {
 
     if (nonPositiveDisks.size() == 0) {
       if (onPositiveDisks.size() <= 2) {
@@ -112,14 +110,11 @@ public class SilverTriangleFilterUtil {
     // System.out.println("nonPositiveDisks=" + nonPositiveDisks.toString());
 
     SilverConfig config = getSilverTriangleConfiguration(
-        nonPositiveDisks, onPositiveDisks, orientedNonNegativeTangentLine, preApexDisk,
-        postApexDisk);
+        nonPositiveDisks, onPositiveDisks, orientedNonNegativeTangentLine);
     System.out.println("SilverTriangleConfig found");
     System.out.println("inside silverconfig, disk.size=" + disks.size());
     System.out.println("configuration=" + config);
 
-    System.out.println("preApexDisk=" + preApexDisk.toString());
-    System.out.println("postApexDisk=" + postApexDisk.toString());
     switch (config) {
       case CASE_A: {
         if (1 == random.nextInt(1)) {
@@ -127,8 +122,6 @@ public class SilverTriangleFilterUtil {
         } else {
           triangleApexX.update(orientedNonNegativeTangentLine.getEnd());
         }
-        // System.out.println(orientedNonNegativeTangentLine.getStart() + ", " +
-        // orientedNonNegativeTangentLine.getEnd());
 
         apexDisk.update(preApexDisk);
         break;
@@ -150,8 +143,11 @@ public class SilverTriangleFilterUtil {
       }
 
       case CASE_C2: {
-        apexDisk.update(nonPositiveDisks.get(random.nextInt(nonPositiveDisks.size() - 1)));
-        triangleApexX.update(apexDisk.findFarthestPoint(orientedNonNegativeTangentLine));
+        Disk newApexDisk = DisksUtil.findApexDisk(nonPositiveDisks, orientedNonNegativeTangentLine);
+
+        Point apexDiskFarthestPoint = newApexDisk.findFarthestPoint(orientedNonNegativeTangentLine);
+        apexDisk.update(newApexDisk);
+        triangleApexX.update(apexDiskFarthestPoint);
         break;
       }
     }
@@ -282,6 +278,6 @@ public class SilverTriangleFilterUtil {
     System.out.println(triangleApex);
 
     // test case_C1
-    
+
   }
 }
