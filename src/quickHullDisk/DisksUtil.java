@@ -22,7 +22,8 @@ public class DisksUtil {
       } else if (disk.getLeftMostX() == diskWithHighLeftExtremePoint.getLeftMostX()) {
         if (disk.getCenter().getY() > diskWithHighLeftExtremePoint.getCenter().getY()) {
           diskWithHighLeftExtremePoint = disk;
-        } else if ((disk.getCenter().getY() == diskWithHighLeftExtremePoint.getCenter().getY() && disk.getRadius() > diskWithHighLeftExtremePoint.getRadius())) {
+        } else if ((disk.getCenter().getY() == diskWithHighLeftExtremePoint.getCenter().getY()
+            && disk.getRadius() > diskWithHighLeftExtremePoint.getRadius())) {
           diskWithHighLeftExtremePoint = disk;
         }
       }
@@ -38,7 +39,8 @@ public class DisksUtil {
       } else if (disk.getRightMostX() == diskWithLowRightExtremePoint.getRightMostX()) {
         if (disk.getCenter().getY() < diskWithLowRightExtremePoint.getCenter().getY()) {
           diskWithLowRightExtremePoint = disk;
-        } else if (disk.getCenter().getY() == diskWithLowRightExtremePoint.getCenter().getY() && disk.getRadius() > diskWithLowRightExtremePoint.getRadius()) {
+        } else if (disk.getCenter().getY() == diskWithLowRightExtremePoint.getCenter().getY()
+            && disk.getRadius() > diskWithLowRightExtremePoint.getRadius()) {
           diskWithLowRightExtremePoint = disk;
         }
       }
@@ -85,7 +87,7 @@ public class DisksUtil {
       if (apexDisk == null || distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;
         apexDisk = disk;
-        System.out.println("LargestDistance="+largestDistance + ",disk="+disk);
+        System.out.println("LargestDistance=" + largestDistance + ",disk=" + disk);
       } else if (distanceOfCurrentDisk == largestDistance) {
         if (random.nextInt(2) == 1) {
           apexDisk = disk;

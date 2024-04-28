@@ -100,7 +100,8 @@ public class QuickHullDisk {
     System.out.println("dp=" + preApexDisk.toString());
     System.out.println("dq=" + postApexDisk.toString());
     System.out.println("dx=" + apexDisk.toString());
-    //System.out.println(disks);
+    // System.out.println(disks);
+    System.out.flush();
     findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
     findHull(new ArrayList<>(backEdgeDisks), apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
   }
@@ -109,6 +110,7 @@ public class QuickHullDisk {
     List<Disk> inputDisks = DiskIO.parse("resources/RANDOM/N10000.txt");
     QuickHullDisk qhd = new QuickHullDisk();
     qhd.run(inputDisks);
+    System.out.println(qhd.hullDisks);
     System.out.println(qhd.hullDisks.size());
   }
 }

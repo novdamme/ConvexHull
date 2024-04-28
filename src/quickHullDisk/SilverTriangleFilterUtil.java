@@ -6,6 +6,7 @@ import dto.Pair;
 import dto.Point;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,8 @@ public class SilverTriangleFilterUtil {
     CASE_C1,
     CASE_C2
   };
-  private final static Random random = new Random(1);
+
+  private final static Random random = new Random(0);
 
   /**
    * Quick method to check whether a triangle configuration is silver
@@ -125,7 +127,8 @@ public class SilverTriangleFilterUtil {
         } else {
           triangleApexX.update(orientedNonNegativeTangentLine.getEnd());
         }
-        System.out.println(orientedNonNegativeTangentLine.getStart() + ", " + orientedNonNegativeTangentLine.getEnd());
+        // System.out.println(orientedNonNegativeTangentLine.getStart() + ", " +
+        // orientedNonNegativeTangentLine.getEnd());
 
         apexDisk.update(preApexDisk);
         break;
@@ -258,11 +261,27 @@ public class SilverTriangleFilterUtil {
   }
 
   public static void main(String[] args) {
-    Disk d1 = new Disk(new Point(2, 1), 1);
-    Disk d2 = new Disk(new Point(10, 1.5), 5);
+    Disk d1 = new Disk(new Point(0, 0), 1.01);
+    Disk d2 = new Disk(new Point(1, 0), 1);
+    Disk d3 = new Disk(new Point(1.5, 0.25), 0.5);
 
+    // test tangentLine
     Line x = computeOrientedTangentLine(d1, d2);
-    System.out.println(x.getStart().getX() + ", " + x.getStart().getY());
-    System.out.println(x.getEnd().getX() + ", " + x.getEnd().getY());
+    System.out.println("correct: {0.01, -1.01}, {1.01, -0.999}");
+    System.out.println("calculated: " + x.getStart().toString() + ", " + x.getEnd().toString());
+
+    // test case_A
+    List<Disk> disks = new ArrayList<>();
+    disks.add(d1);
+    disks.add(d2);
+    disks.add(d3);
+    Point triangleApex = new Point(0, 0);
+
+    regularizeSliverTriangleNPivotDisks(disks, d1, d2, d1.getHighLeftExtremePoint(), d2.getLowRightExtremePoint(),
+        new ArrayList<>(), new ArrayList<>(), new Disk(null, 0), triangleApex);
+    System.out.println(triangleApex);
+
+    // test case_C1
+    
   }
 }
