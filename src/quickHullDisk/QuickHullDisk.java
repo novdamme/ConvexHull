@@ -77,6 +77,9 @@ public class QuickHullDisk {
 
     if (SilverTriangleFilterUtil.triangleFilterIsSilver(disks.size(), frontEdgeDisks.size(), backEdgeDisks.size(),
         preApexDisk, postApexDisk)) {
+      System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()="
+          + frontEdgeDisks.size()
+          + " and backEdgeDisks.size()=" + backEdgeDisks.size());
       frontEdgeDisks.clear();
       backEdgeDisks.clear();
       SilverTriangleFilterUtil.regularizeSliverTriangleNPivotDisks(

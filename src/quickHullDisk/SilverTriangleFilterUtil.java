@@ -119,11 +119,11 @@ public class SilverTriangleFilterUtil {
       case CASE_A: {
         if (1 == random.nextInt(1)) {
           triangleApexX.update(orientedNonNegativeTangentLine.getStart());
+          apexDisk.update(preApexDisk);
         } else {
           triangleApexX.update(orientedNonNegativeTangentLine.getEnd());
+          apexDisk.update(postApexDisk);
         }
-
-        apexDisk.update(preApexDisk);
         break;
       }
 
