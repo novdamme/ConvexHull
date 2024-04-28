@@ -117,8 +117,7 @@ public class SilverTriangleFilterUtil {
 
     switch (config) {
       case CASE_A: {
-        Random rand = new Random();
-        if (0 == rand.nextInt(2)) {
+        if (0 == random.nextInt(2)) {
           System.out.print(1);
           triangleApexX.update(orientedNonNegativeTangentLine.getStart());
           apexDisk.update(preApexDisk);
