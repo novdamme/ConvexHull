@@ -28,7 +28,7 @@ public class QuickHullDisk {
     Point highLeftExtremePoint = diskHavingHighLeftPoint.getHighLeftExtremePoint();
 
     Disk diskHavingLowRightPoint = DisksUtil.findDiskWithLowRightExtremePoint(disks);
-    Point lowRightExtremePoint = diskHavingHighLeftPoint.getLowRightExtremePoint();
+    Point lowRightExtremePoint = diskHavingLowRightPoint.getLowRightExtremePoint();
 
     Line orientedLinePQ = new Line(highLeftExtremePoint, lowRightExtremePoint);
 
@@ -95,11 +95,13 @@ public class QuickHullDisk {
       e.printStackTrace();
     }
     System.out.println();
-    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size()
-        + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+    // System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()="
+    // + frontEdgeDisks.size()
+    // + " and backEdgeDisks.size()=" + backEdgeDisks.size());
     System.out.println("dp=" + preApexDisk.toString());
     System.out.println("dq=" + postApexDisk.toString());
     System.out.println("dx=" + apexDisk.toString());
+    // System.out.println("ApexPoint=" + apexDiskFarthestPoint);
     // System.out.println(disks);
     System.out.flush();
     findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
