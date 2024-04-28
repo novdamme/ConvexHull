@@ -82,17 +82,17 @@ public class DisksUtil {
 
   public static Disk findApexDisk(List<Disk> disks, Line orientedLinePQ) {
     double largestDistance = 0;
-    Disk apexDisk = null;
-    System.out.println(disks.size());
+    Disk apexDisk = new Disk(new Point(0, 0), 0);
+    // System.out.println(disks.size());
     for (Disk disk : disks) {
-      double distanceOfCurrentDisk = disk.getRadius() + orientedLinePQ.getDistance(disk.getCenter());
-      if (apexDisk == null || distanceOfCurrentDisk > largestDistance) {
+      double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.getDistance(disk.getCenter());
+      if (apexDisk == new Disk(new Point(0, 0), 0) || distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;
-        apexDisk = disk;
+        apexDisk.update(disk);
         // System.out.println("LargestDistance=" + largestDistance + ",disk=" + disk);
       } else if (distanceOfCurrentDisk == largestDistance) {
         if (random.nextInt(2) == 1) {
-          apexDisk = disk;
+          apexDisk.update(disk);
         }
       }
     }

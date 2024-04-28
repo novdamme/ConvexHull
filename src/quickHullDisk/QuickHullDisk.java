@@ -75,9 +75,11 @@ public class QuickHullDisk {
     List<Disk> backEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedBackEdgeLine, apexDisk,
         postApexDisk);
 
-    if (SilverTriangleFilterUtil.triangleFilterIsSilver(disks.size(), frontEdgeDisks.size(), backEdgeDisks.size(),
+    if (SilverTriangleFilterUtil.triangleFilterIsSilver(disks.size(),
+        frontEdgeDisks.size(), backEdgeDisks.size(),
         preApexDisk, postApexDisk)) {
-      System.out.println("triangle: front.size=" + frontEdgeDisks.size() + ",back.size=" + backEdgeDisks.size());
+      System.out.println("triangle: front.size=" + frontEdgeDisks.size() +
+          ",back.size=" + backEdgeDisks.size());
       frontEdgeDisks.clear();
       backEdgeDisks.clear();
       SilverTriangleFilterUtil.regularizeSliverTriangleNPivotDisks(
@@ -97,12 +99,14 @@ public class QuickHullDisk {
       e.printStackTrace();
     }
     System.out.println();
-    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size() + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size()
+        + " and backEdgeDisks.size()=" + backEdgeDisks.size());
     System.out.println("dp=" + preApexDisk.toString());
     System.out.println("dq=" + postApexDisk.toString());
     System.out.println("dx=" + apexDisk.toString());
     // System.out.println("ApexPoint=" + apexDiskFarthestPoint);
     // System.out.println(disks);
+    // System.out.println(hullDisks.size());
     System.out.flush();
     System.out.println();
     findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
