@@ -37,7 +37,8 @@ public class QuickHullDisk {
     DisksUtil.findInitialDiskSets(disks, orientedLinePQ, initialDR, initialDL);
     System.out.println(diskHavingHighLeftPoint);
     System.out.println(diskHavingLowRightPoint);
-
+    System.out.println("initialDR.size=" + initialDR.size());
+    System.out.println("initialDL.size=" + initialDL.size());
     findHull(initialDR, diskHavingHighLeftPoint, diskHavingLowRightPoint, highLeftExtremePoint, lowRightExtremePoint);
     findHull(initialDL, diskHavingLowRightPoint, diskHavingHighLeftPoint, lowRightExtremePoint, highLeftExtremePoint);
   }

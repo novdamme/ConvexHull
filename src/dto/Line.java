@@ -24,33 +24,31 @@ public class Line {
    **/
   public double getDistance(Point p) {
     // This did not work in testing
-    Point s2pVector = new Point(p.getX() - start.getX(), p.getY() -
-        start.getY());
-    Point lineVector = new Point(end.getX() - start.getX(), end.getY() -
-        start.getY());
+    // Point s2pVector = new Point(p.getX() - start.getX(), p.getY()- start.getY());
+    // Point lineVector = new Point(end.getX() - start.getX(), end.getY() - start.getY());
 
-    return (lineVector.getX() * s2pVector.getY() -
-        lineVector.getY() * s2pVector.getX()) / lineVector.getMagnitude();
+    // return (lineVector.getX()*s2pVector.getY() - lineVector.getY()*s2pVector.getX())/ lineVector.getMagnitude();
 
-    // double x0 = p.getX();
-    // double y0 = p.getY();
-    // double x1 = start.getX();
-    // double y1 = start.getY();
-    // double x2 = end.getX();
-    // double y2 = end.getY();
 
-    // double A = y2 - y1;
-    // double B = x1 - x2;
-    // double C = x2 * y1 - x1 * y2;
-    // double distance = Math.abs(A * x0 + B * y0 + C) / Math.sqrt(A * A + B * B);
-    // double area = (x2 - x1) * (y0 - y1) - (x0 - x1) * (y2 - y1);
-    // double length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
-    // double distance = area / length;
-    // return distance;
+    double x0 = p.getX();
+    double y0 = p.getY();
+    double x1 = start.getX();
+    double y1 = start.getY();
+    double x2 = end.getX();
+    double y2 = end.getY();
+
+    double A = y2 -y1;
+    double B = x1 - x2;
+    double C = x2*y1 -x1*y2;
+    double distance = (A*x0 + B*y0 + C) / Math.sqrt(A*A + B*B);
+    //double area = (x2 - x1) * (y0 - y1) - (x0 - x1) * (y2 - y1);
+    //double length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+    //double distance = area / length;
+    return distance;
   }
 
   public Point getNormalVector() {
-    Point lineVector = new Point(end.getX() - start.getX(), end.getY() - start.getY());
+    Point lineVector = new Point(start.getX() - end.getX(), start.getY() - end.getY());
     return new Point(-lineVector.getY(), lineVector.getX());
 
   }
@@ -61,12 +59,8 @@ public class Line {
     return new Line(point, newPoint);
   }
 
-  public static void main(String[] args) {
-    Point p = new Point(0, -4);
-
-    Point x1 = new Point(0, 0);
-    Point x2 = new Point(4, 0);
-    Line y = new Line(x1, x2);
-    System.out.println(y.getDistance(p));
+  @Override
+  public String toString() {
+    return "{start: " + start.toString() + ", end: " + end.toString() + "}";
   }
 }
