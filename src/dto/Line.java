@@ -6,8 +6,8 @@ public class Line {
   private final Point end;
 
   public Line(Point start, Point end) {
-    this.start = start;
-    this.end = end;
+    this.start = new Point(start);
+    this.end = new Point(end);
   }
 
   public Point getStart() {
@@ -23,12 +23,6 @@ public class Line {
    * Assume the point lies between the endpoints of the segment
    **/
   public double getDistance(Point p) {
-    // This did not work in testing
-    // Point s2pVector = new Point(p.getX() - start.getX(), p.getY()- start.getY());
-    // Point lineVector = new Point(end.getX() - start.getX(), end.getY() - start.getY());
-
-    // return (lineVector.getX()*s2pVector.getY() - lineVector.getY()*s2pVector.getX())/ lineVector.getMagnitude();
-
 
     double x0 = p.getX();
     double y0 = p.getY();
@@ -37,10 +31,6 @@ public class Line {
     double x2 = end.getX();
     double y2 = end.getY();
 
-    double A = y2 -y1;
-    double B = x1 - x2;
-    double C = x2*y1 -x1*y2;
-    //double distance = (A*x0 + B*y0 + C) / Math.sqrt(A*A + B*B);
     double area = (x2 - x1) * (y0 - y1) - (x0 - x1) * (y2 - y1);
     double length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
     double distance = area / length;

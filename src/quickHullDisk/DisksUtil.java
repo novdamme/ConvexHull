@@ -83,13 +83,11 @@ public class DisksUtil {
   public static Disk findApexDisk(List<Disk> disks, Line orientedLinePQ) {
     double largestDistance = 0;
     Disk apexDisk = null;
-    // System.out.println(disks.size());
     for (Disk disk : disks) {
       double distanceOfCurrentDisk = disk.getRadius() - orientedLinePQ.getDistance(disk.getCenter());
       if (apexDisk == null || distanceOfCurrentDisk > largestDistance) {
         largestDistance = distanceOfCurrentDisk;
         apexDisk = disk;
-        // System.out.println("LargestDistance=" + largestDistance + ",disk=" + disk);
       } else if (distanceOfCurrentDisk == largestDistance) {
         if (random.nextInt(2) == 1) {
           apexDisk = disk;
@@ -132,12 +130,7 @@ public class DisksUtil {
   public static List<Disk> findExpandedNonPositiveDisks(List<Disk> disks, Line orientedLine, Disk startDisk,
       Disk endDisk) {
     List<Disk> nonPositiveDisks = new ArrayList<>();
-    Line orthogonalLineAtStartPoint = orientedLine.makePerpendicularLine(orientedLine.getStart());
-    Line orthogonalLineAtEndPoint = orientedLine.makePerpendicularLine(orientedLine.getEnd());
-    // System.out.println();
-    // System.out.println("orientedLine=" + orientedLine);
-    // System.out.println("start=" + orthogonalLineAtStartPoint);
-    // System.out.println("end=" + orthogonalLineAtEndPoint);
+
     if (orientedLine.getStart() != orientedLine.getEnd()) {
       for (Disk disk : disks) {
         if (disk.equals(startDisk) || disk.equals(endDisk)) {

@@ -106,23 +106,17 @@ public class SilverTriangleFilterUtil {
     nonPositiveDisks = nonPositiveDisks.stream().filter((x) -> (!x.equals(preApexDisk) && !x.equals(postApexDisk)))
         .collect(Collectors.toList());
 
-    // System.out.println("onPositiveDisks=" + onPositiveDisks.toString());
-    // System.out.println("nonPositiveDisks=" + nonPositiveDisks.toString());
 
     SilverConfig config = getSilverTriangleConfiguration(
         nonPositiveDisks, onPositiveDisks, orientedNonNegativeTangentLine);
-    System.out.println("SilverTriangleConfig found");
-    System.out.println("inside silverconfig, disk.size=" + disks.size());
-    System.out.println("configuration=" + config);
+
 
     switch (config) {
       case CASE_A: {
         if (0 == random.nextInt(2)) {
-          System.out.print(1);
           triangleApexX.update(orientedNonNegativeTangentLine.getStart());
           apexDisk.update(preApexDisk);
         } else {
-          System.out.print(0);
           triangleApexX.update(orientedNonNegativeTangentLine.getEnd());
           apexDisk.update(postApexDisk);
         }
@@ -181,10 +175,8 @@ public class SilverTriangleFilterUtil {
     double totalDistance = t1.getDistance(d1.getCenter()) + t1.getDistance(d2.getCenter());
 
     if (totalDistance > 0) {
-      // System.out.println("t1 was chosen");
       return t1;
     } else {
-      // System.out.println("t2 was chosen");
       return t2;
     }
   }
@@ -219,10 +211,7 @@ public class SilverTriangleFilterUtil {
    * @return
    */
   public static Double[] getTangentLines(Disk inputD1, Disk inputD2) {
-    // System.out.println(inputD1.getCenter().getX() + ", " +
-    // inputD1.getCenter().getY() + ", " + inputD1.getRadius());
-    // System.out.println(inputD2.getCenter().getX() + ", " +
-    // inputD2.getCenter().getY() + ", " + inputD2.getRadius());
+
     Disk d1;
     Disk d2;
     if (inputD2.getRadius() > inputD1.getRadius()) {
@@ -250,9 +239,6 @@ public class SilverTriangleFilterUtil {
     double b2 = R * Y - (X * Math.sqrt(1 - (R * R)));
     double c2 = d1.getRadius() - (a2 * d1.getCenter().getX() + (b2 * d1.getCenter().getY()));
 
-    // System.out.println(a1 + " " + b1 + " " + c1);
-    // System.out.println(a2 + " " + b2 + " " + c2);
-
     Double[] res = { a1, b1, c1, a2, b2, c2 };
 
     return res;
@@ -265,8 +251,6 @@ public class SilverTriangleFilterUtil {
 
     // test tangentLine
     Line x = computeOrientedTangentLine(d1, d2);
-    System.out.println("correct: {0.01, -1.01}, {1.01, -0.999}");
-    System.out.println("calculated: " + x.getStart().toString() + ", " + x.getEnd().toString());
 
     // test case_A
     List<Disk> disks = new ArrayList<>();
@@ -277,7 +261,6 @@ public class SilverTriangleFilterUtil {
 
     regularizeSliverTriangleNPivotDisks(disks, d1, d2, d1.getHighLeftExtremePoint(), d2.getLowRightExtremePoint(),
         new ArrayList<>(), new ArrayList<>(), new Disk(null, 0), triangleApex);
-    System.out.println(triangleApex);
 
     // test case_C1
 

@@ -3,8 +3,9 @@ package quickHullDisk;
 import dto.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 public class QuickHullDisk {
 
@@ -35,10 +36,7 @@ public class QuickHullDisk {
     List<Disk> initialDR = new ArrayList<>();
     List<Disk> initialDL = new ArrayList<>();
     DisksUtil.findInitialDiskSets(disks, orientedLinePQ, initialDR, initialDL);
-    System.out.println(diskHavingHighLeftPoint);
-    System.out.println(diskHavingLowRightPoint);
-    System.out.println("initialDR.size=" + initialDR.size());
-    System.out.println("initialDL.size=" + initialDL.size());
+
     findHull(initialDR, diskHavingHighLeftPoint, diskHavingLowRightPoint, highLeftExtremePoint, lowRightExtremePoint);
     findHull(initialDL, diskHavingLowRightPoint, diskHavingHighLeftPoint, lowRightExtremePoint, highLeftExtremePoint);
   }
@@ -49,7 +47,7 @@ public class QuickHullDisk {
       hullDisks.add(preApexDisk);
       return;
     }
-    if (disks.size() == 2 && !preApexDisk.equals(postApexDisk)) {
+    if (disks.size() == 2) {
       hullDisks.add(preApexDisk);
       hullDisks.add(postApexDisk);
       return;
@@ -62,13 +60,6 @@ public class QuickHullDisk {
     Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
     Line orientedBackEdgeLine = new Line(apexDiskFarthestPoint, hullPointQ);
 
-    // This would help with performace we can test it when it actually works
-    // System.out.println(disks);
-    // List<Disk> containedDisks = new ArrayList<>();
-    // apexDisk = DisksUtil.findLargestContainingDisks(apexDisk, disks,
-    // containedDisks);
-    // System.out.println("containedDisks size: " + containedDisks.size());
-    // disks.removeAll(containedDisks);
     List<Disk> frontEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedFrontEdgeLine, preApexDisk,
         apexDisk);
     List<Disk> backEdgeDisks = DisksUtil.findExpandedNonPositiveDisks(disks, orientedBackEdgeLine, apexDisk,
@@ -77,8 +68,7 @@ public class QuickHullDisk {
     if (SilverTriangleFilterUtil.triangleFilterIsSilver(disks.size(),
         frontEdgeDisks.size(), backEdgeDisks.size(),
         preApexDisk, postApexDisk)) {
-      System.out.println("triangle: front.size=" + frontEdgeDisks.size() +
-          ",back.size=" + backEdgeDisks.size());
+
       frontEdgeDisks.clear();
       backEdgeDisks.clear();
       SilverTriangleFilterUtil.regularizeSliverTriangleNPivotDisks(
@@ -92,33 +82,19 @@ public class QuickHullDisk {
           apexDisk,
           apexDiskFarthestPoint);
     }
-    try {
-      TimeUnit.MILLISECONDS.sleep(10);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    System.out.println();
-    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size()
-        + " and backEdgeDisks.size()=" + backEdgeDisks.size());
-    System.out.println("dp=" + preApexDisk.toString());
-    System.out.println("dq=" + postApexDisk.toString());
-    System.out.println("dx=" + apexDisk.toString());
-    //System.out.println(disks);
-    // System.out.println("ApexPoint=" + apexDiskFarthestPoint);
-    // System.out.println(disks);
-    // System.out.println(hullDisks.size());
-    System.out.flush();
-    System.out.println();
 
-    findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
-    findHull(new ArrayList<>(backEdgeDisks), apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
+
+    findHull(new ArrayList<>(frontEdgeDisks), new Disk(preApexDisk), new Disk(apexDisk), new Point(hullPointP), new Point(apexDiskFarthestPoint));
+    findHull(new ArrayList<>(backEdgeDisks), new Disk(apexDisk), new Disk(postApexDisk), new Point(apexDiskFarthestPoint), new Point(hullPointQ));
   }
 
   public static void main(String[] args) {
-    List<Disk> inputDisks = DiskIO.parse("resources/RANDOM/N10000.txt");
+    List<Disk> inputDisks = DiskIO.parse("resources/RANDOM/N100000.txt");
     QuickHullDisk qhd = new QuickHullDisk();
     qhd.run(inputDisks);
     System.out.println(qhd.hullDisks);
-    System.out.println(qhd.hullDisks.size());
+    Set<Disk> uniqueItemsSet = new HashSet<>(qhd.hullDisks);
+
+    System.out.println("size=" + uniqueItemsSet.size());
   }
 }
