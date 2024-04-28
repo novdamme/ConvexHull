@@ -53,16 +53,18 @@ public class DisksUtil {
     Line orthogonalLineAtEndPoint = orientedLine.makePerpendicularLine(orientedLine.getEnd());
     double signedDistance = orientedLine.getDistance(disk.getCenter());
 
-    if (signedDistance <= -disk.getRadius() + 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < -disk.getRadius() + 1e-6
-          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > disk.getRadius() - 1e-6;
-    } else if (signedDistance > -disk.getRadius() + 1e-6 && signedDistance < disk.getRadius()) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < 1e-6
-          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > -1e-6;
-    } else if (Math.abs(signedDistance - disk.getRadius()) < 1e-6) {
-      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) < 1e-6
-          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) > -1e-6;
-    } else {
+    if (signedDistance <= -disk.getRadius() + 1e-6) { // negative or on-negative
+      double d1 = orthogonalLineAtStartPoint.getDistance(disk.getCenter());
+      double d2 = orthogonalLineAtEndPoint.getDistance(disk.getCenter());
+      return d1 > disk.getRadius() - 1e-6
+          && d2 < -disk.getRadius() + 1e-6;
+    } else if (signedDistance > -disk.getRadius() + 1e-6 && signedDistance < disk.getRadius()) { // crossing
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) > -1e-6
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) < 1e-6;
+    } else if (Math.abs(signedDistance - disk.getRadius()) < 1e-6) { // on-positive
+      return orthogonalLineAtStartPoint.getDistance(disk.getCenter()) > -1e-6
+          && orthogonalLineAtEndPoint.getDistance(disk.getCenter()) < 1e-6;
+    } else { // positive
       return false;
     }
   }

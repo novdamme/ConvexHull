@@ -77,9 +77,7 @@ public class QuickHullDisk {
 
     if (SilverTriangleFilterUtil.triangleFilterIsSilver(disks.size(), frontEdgeDisks.size(), backEdgeDisks.size(),
         preApexDisk, postApexDisk)) {
-      System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()="
-          + frontEdgeDisks.size()
-          + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+      System.out.println("triangle: front.size=" + frontEdgeDisks.size() + ",back.size=" + backEdgeDisks.size());
       frontEdgeDisks.clear();
       backEdgeDisks.clear();
       SilverTriangleFilterUtil.regularizeSliverTriangleNPivotDisks(
@@ -98,10 +96,8 @@ public class QuickHullDisk {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
-    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()="
-        + frontEdgeDisks.size()
-        + " and backEdgeDisks.size()=" + backEdgeDisks.size());
+    System.out.println();
+    System.out.println("disks.size()=" + disks.size() + " frontEdgeDisks.size()=" + frontEdgeDisks.size() + " and backEdgeDisks.size()=" + backEdgeDisks.size());
     System.out.println("dp=" + preApexDisk.toString());
     System.out.println("dq=" + postApexDisk.toString());
     System.out.println("dx=" + apexDisk.toString());
