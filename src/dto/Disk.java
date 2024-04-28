@@ -17,9 +17,13 @@ public class Disk {
     this.radius = r;
 
   }
+  public Disk(Disk disk) {
+    this.center = new Point(disk.center);
+    this.radius = disk.radius;
+  }
 
   public void update(Disk d) {
-    this.center = d.center;
+    this.center.update(d.center);
     this.radius = d.radius;
   }
 

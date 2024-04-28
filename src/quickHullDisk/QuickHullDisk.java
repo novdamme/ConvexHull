@@ -56,8 +56,7 @@ public class QuickHullDisk {
     }
 
     Line orientedLine = new Line(hullPointP, hullPointQ);
-    Disk apexDisk = new Disk(new Point(0, 0), 0);
-    apexDisk.update(DisksUtil.findApexDisk(disks, orientedLine));
+    Disk apexDisk = DisksUtil.findApexDisk(disks, orientedLine);
 
     Point apexDiskFarthestPoint = apexDisk.findFarthestPoint(orientedLine);
     Line orientedFrontEdgeLine = new Line(hullPointP, apexDiskFarthestPoint);
@@ -104,11 +103,13 @@ public class QuickHullDisk {
     System.out.println("dp=" + preApexDisk.toString());
     System.out.println("dq=" + postApexDisk.toString());
     System.out.println("dx=" + apexDisk.toString());
+    //System.out.println(disks);
     // System.out.println("ApexPoint=" + apexDiskFarthestPoint);
     // System.out.println(disks);
     // System.out.println(hullDisks.size());
     System.out.flush();
     System.out.println();
+
     findHull(new ArrayList<>(frontEdgeDisks), preApexDisk, apexDisk, hullPointP, apexDiskFarthestPoint);
     findHull(new ArrayList<>(backEdgeDisks), apexDisk, postApexDisk, apexDiskFarthestPoint, hullPointQ);
   }
